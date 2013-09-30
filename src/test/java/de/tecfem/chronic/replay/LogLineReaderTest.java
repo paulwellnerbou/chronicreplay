@@ -34,4 +34,15 @@ public class LogLineReaderTest {
 						"/aktuell/lebensstil/leib-seele/40-days-of-dating-eins-minus-eins-12586789.html?ot=de.faz.ot.www.Gallery&offset=2&ignoreCurrentOffset=true&cid=1.2586789&fazgets_pct=Bildergalerie");
 		assertThat(logLineData.getDuration()).isEqualTo(34);
 	}
+
+	@Test
+	public void testReadLineWithSsl1() {
+		String testLine = "87.155.64.163 - - [25/Sep/2013:12:00:04 +0200] \"GET /mein-faz-net/musterdepot-watchlist/overview/ HTTP/1.1\" 200 7492 \"https://www.faz.net/mein-faz-net/musterdepot-watchlist/\" \"Opera/9.80 (Windows NT 6.2; WOW64) Presto/2.12.388 Version/12.16\" \"SSL:1\" 224040 10.50.160.80 10.50.180.45";
+		LogLineData logLineData = logReaderReplay.readLine(testLine);
+
+		assertThat(logLineData.getTime()).isEqualTo(1380103204000L);
+		assertThat(logLineData.getRequestMethod()).isEqualTo("GET");
+		assertThat(logLineData.getRequest()).isEqualTo("/mein-faz-net/musterdepot-watchlist/overview/");
+		assertThat(logLineData.getDuration()).isEqualTo(224L);
+	}
 }

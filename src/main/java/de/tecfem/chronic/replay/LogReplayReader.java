@@ -36,7 +36,7 @@ public class LogReplayReader {
 					lineData = logLineReader.readLine(line);
 					delayer.delay(lineData.getTime());
 					lineReplayer.replay(lineData);
-				} catch (InterruptedException e) {
+				} catch (InterruptedException | RuntimeException e) {
 					LOG.error("Exception replaying line {}", line, e);
 				}
 			}

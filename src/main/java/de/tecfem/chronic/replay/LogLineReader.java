@@ -25,7 +25,7 @@ public class LogLineReader {
 	}
 
 	private long extractDuration(final String line) {
-		String substr = line.replaceFirst("^.*\"SSL:-\" ", "");
+		String substr = line.replaceFirst("^.*\"SSL:.{1}\" ", "");
 		String number = substr.replaceFirst(" .*$", "");
 		return formatDuration(number);
 	}
