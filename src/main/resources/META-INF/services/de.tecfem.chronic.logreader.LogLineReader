@@ -1,0 +1,3 @@
+de.tecfem.chronic.logreader.CommonLogFormatLogLineReader
+de.tecfem.chronic.logreader.CombinedLogFormatLogLineReader
+de.tecfem.chronic.logreader.custom.FazDefaultLogLineReader

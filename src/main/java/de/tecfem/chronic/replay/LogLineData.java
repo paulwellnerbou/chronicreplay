@@ -6,6 +6,7 @@ public class LogLineData {
 	private String request;
 	private long duration;
 	private String statusCode;
+	private String userAgent;
 
 	public long getTime() {
 		return time;
@@ -43,7 +44,15 @@ public class LogLineData {
 		return statusCode;
 	}
 
-	public void setStatusCode(String statusCode) {
+	public void setStatusCode(final String statusCode) {
 		this.statusCode = statusCode;
+	}
+
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
 	}
 }

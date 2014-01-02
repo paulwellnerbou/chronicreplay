@@ -28,7 +28,14 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 	@Override
 	public Response onCompleted(final Response response) throws Exception {
 		long duration = System.currentTimeMillis() - startTime;
-		LOG.info("Status={} OriginalStatus={} Duration={} OriginalDuration={} Difference={} Request={}", response.getStatusCode(), originalData.getStatusCode(), duration,
+		Boolean sameStatus = null;
+		try {
+			sameStatus = Integer.parseInt(originalData.getStatusCode()) == response.getStatusCode();
+		} catch (NumberFormatException e) {
+			LOG.warn("Unable to parse original status code to int: {}", originalData.getStatusCode());
+		}
+		LOG.info("Status={} OriginalStatus={} SameStatus={} Duration={} OriginalDuration={} Difference={} Request={}", response.getStatusCode(), originalData.getStatusCode(),
+				sameStatus, duration,
 				originalData.getDuration(),
 				duration - originalData.getDuration(), response
 				.getUri().toASCIIString());

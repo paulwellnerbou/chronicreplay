@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import de.tecfem.chronic.logreader.LogLineReader;
+
 public class LogReplayReader {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LogReplayReader.class);
@@ -27,13 +29,13 @@ public class LogReplayReader {
 		LogLineData lineData = null;
 		if ((line = reader.readLine()) != null) {
 
-			lineData = logLineReader.readLine(line);
+			lineData = logLineReader.parseLine(line);
 			Delayer delayer = new Delayer(lineData.getTime());
-			lineReplayer.replay(logLineReader.readLine(line));
+			lineReplayer.replay(logLineReader.parseLine(line));
 
 			while ((line = reader.readLine()) != null) {
 				try {
-					lineData = logLineReader.readLine(line);
+					lineData = logLineReader.parseLine(line);
 					delayer.delay(lineData.getTime());
 					lineReplayer.replay(lineData);
 				} catch (InterruptedException | RuntimeException e) {
