@@ -7,25 +7,25 @@ import de.tecfem.chronic.replay.LogLineData;
 /**
  * Implementation of LogLineReader supporting apache log files written in following format, defined in
  * mod_log_config.conf:
- *
+ * 
  * <pre>
  * LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\""
  * </pre>
- *
+ * 
  * Example:
- *
+ * 
  * <pre>
  * 127.0.0.1 - - [02/Jan/2014:11:55:12 +0100] "GET / HTTP/1.1" 200 481 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0"
  * </pre>
- *
+ * 
  * This format is defined by apache as the default log format, named NCSA extended/combined log format. This is
  * documented on
  * <a href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">http://httpd.apache.org/docs/current/mod/
  * mod_log_config.html</a>.
- *
+ * 
  * Unfortunately, there is no request duration time information in this log message, so it won't be possible to compare
  * the original and the actual time, you will just be able to simulate traffic on your target system.
- *
+ * 
  * @author Paul Wellner Bou <pwb@faz.net>
  */
 public class CombinedLogFormatLogLineReader extends CommonLogFormatLogLineReader {

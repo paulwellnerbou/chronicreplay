@@ -1,6 +1,6 @@
 package de.tecfem.chronic.logreader.custom;
 
-import de.tecfem.chronic.logreader.CombinedLogFormatLogLineReader;
+import de.tecfem.chronic.logreader.CombinedWithDurationLogLineReader;
 import de.tecfem.chronic.replay.LogLineData;
 
 /**
@@ -15,7 +15,7 @@ import de.tecfem.chronic.replay.LogLineData;
  *
  * @author Paul Wellner Bou <pwb@faz.net>
  */
-public class FazDefaultLogLineReader extends CombinedLogFormatLogLineReader {
+public class FazDefaultLogLineReader extends CombinedWithDurationLogLineReader {
 
 	/* (non-Javadoc)
 	 * @see de.tecfem.chronic.logreader.LogLineReader#parseLine(java.lang.String)
@@ -32,11 +32,6 @@ public class FazDefaultLogLineReader extends CombinedLogFormatLogLineReader {
 		logLineData.setDuration(extractDuration(logLine));
 		logLineData.setUserAgent(getUserAgent(parts));
 		return logLineData;
-	}
-
-	private long formatDuration(final String s) {
-		Double dur = Long.parseLong(s) / 1000D;
-		return Math.round(dur);
 	}
 
 	private long extractDuration(final String line) {

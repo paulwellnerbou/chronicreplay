@@ -21,7 +21,7 @@ public class ChronicReplay
 	private static final String LOGFILE = "logfile";
 	private static final String URLPREFIX = "urlprefix";
 	private static final String HOSTHEADER = "hostheader";
-	private static final String LOGREADERID = "logreaderid";
+	private static final String LOGREADERID = "logreader";
 
 	public static void main(final String[] args) throws FileNotFoundException, IOException
     {
@@ -29,7 +29,7 @@ public class ChronicReplay
 		optionParser.accepts(URLPREFIX, "Scheme, host and port which will be prefixed to the request.").withRequiredArg().required();
 		optionParser.accepts(HOSTHEADER, "Virtual host header").withRequiredArg();
 		optionParser.accepts(LOGFILE, "Logfile to replay").withRequiredArg().required();
-		optionParser.accepts(LOGREADERID, "Id of the reader class which should be used to read the given log file.").withRequiredArg();
+		optionParser.accepts(LOGREADERID, "Id of the reader class which should be used to read the given log file.").withRequiredArg().required();
 
 		OptionSet optionSet = optionParser.parse(args);
 
