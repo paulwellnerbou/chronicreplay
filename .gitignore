@@ -7,3 +7,5 @@ src/test/resources/faz-private-data
 .settings
 .classpath
 .project
+*.iml
+*.log
