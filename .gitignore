@@ -1,0 +1,9 @@
+/build
+.gradle
+.idea
+/bin
+/logs/*
+src/test/resources/faz-private-data
+.settings
+.classpath
+.project
