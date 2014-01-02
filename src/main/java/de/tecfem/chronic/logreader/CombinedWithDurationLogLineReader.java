@@ -1,0 +1,62 @@
+package de.tecfem.chronic.logreader;
+
+import de.tecfem.chronic.logreader.CombinedLogFormatLogLineReader;
+import de.tecfem.chronic.replay.LogLineData;
+
+/**
+ * Implementation of LogLineReader supporting apache log files written in following format, defined in
+ * mod_log_config.conf:
+ *
+ * <pre>
+ * LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-agent}i\" %D"
+ * </pre>
+ *
+ * Example:
+ *
+ * <pre>
+ * 127.0.0.1 - - [02/Jan/2014:11:55:12 +0100] "GET / HTTP/1.1" 200 481 "-" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:26.0) Gecko/20100101 Firefox/26.0 1000"
+ * </pre>
+ *
+ * This format is derived from the standard apache format named NCSA extended/combined log format, enhanced by the
+ * duration of the request (%D). This is
+ * documented on <a
+ * href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">http://httpd.apache.org/docs/current/mod/
+ * mod_log_config.html</a>.
+ *
+ * @author Paul Wellner Bou <pwb@faz.net>
+ */
+public class CombinedWithDurationLogLineReader extends CombinedLogFormatLogLineReader {
+
+	/* (non-Javadoc)
+	 * @see de.tecfem.chronic.logreader.LogLineReader#parseLine(java.lang.String)
+	 */
+	@Override
+	public LogLineData parseLine(final String logLine) {
+		LogLineData logLineData = new LogLineData();
+		String[] parts = logLine.split("\\s");
+
+		logLineData.setTime(formatDate(parts[3]));
+		logLineData.setRequestMethod(parts[5].replace("\"", ""));
+		logLineData.setRequest(parts[6]);
+		logLineData.setStatusCode(parts[8]);
+		logLineData.setDuration(extractDuration(logLine));
+		logLineData.setUserAgent(getUserAgent(parts));
+		return logLineData;
+	}
+
+	protected long formatDuration(final String s) {
+		Double dur = Long.parseLong(s) / 1000D;
+		return Math.round(dur);
+	}
+
+	private long extractDuration(final String line) {
+		String substr = line.substring(line.lastIndexOf(' ') + 1);
+		return formatDuration(substr);
+	}
+
+	@Override
+	public String getId() {
+		return "combined-with-duration";
+	}
+
+}
