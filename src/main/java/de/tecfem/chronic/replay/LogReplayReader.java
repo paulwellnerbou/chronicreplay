@@ -31,7 +31,7 @@ public class LogReplayReader {
 
 			lineData = logLineReader.parseLine(line);
 			Delayer delayer = new Delayer(lineData.getTime());
-			lineReplayer.replay(logLineReader.parseLine(line));
+			lineReplayer.replay(lineData);
 
 			while ((line = reader.readLine()) != null) {
 				try {
@@ -43,5 +43,7 @@ public class LogReplayReader {
 				}
 			}
 		}
+
+        reader.close();
 	}
 }

@@ -1,5 +1,6 @@
 package de.tecfem.chronic.replay;
 
+import com.ning.http.client.HttpResponseHeaders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +25,17 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 		// Don't store the content anyway, saving memory. We want to receive it, but nothing else.
 		return STATE.CONTINUE;
 	}
+
+    @Override
+    public STATE onHeadersReceived(final HttpResponseHeaders headers) throws Exception {
+        return super.onHeadersReceived(headers);
+    }
+
+    public void onThrowable(Throwable t) {
+        long duration = System.currentTimeMillis() - startTime;
+        LOG.info("Request {} failed after {}ms", originalData.getRequest(), duration, t);
+        super.onThrowable(t);
+    }
 
 	@Override
 	public Response onCompleted(final Response response) throws Exception {
