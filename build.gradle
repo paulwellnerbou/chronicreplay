@@ -2,12 +2,12 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
 
-group = 'de.tecfem'
-version = '1.0-SNAPSHOT'
+group = 'de.wellnerbou'
+version = '1.1-SNAPSHOT'
 
 description = """chronicreplay"""
 
-mainClassName = "de.tecfem.chronic.replay.ChronicReplay"
+mainClassName = "de.wellnerbou.chronic.replay.ChronicReplay"
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
