@@ -5,7 +5,7 @@ import org.junit.Test;
 
 public class LineReplayerTest {
 
-	LineReplayer lineReplayer = new LineReplayer(null, null);
+	LineReplayer lineReplayer = new LineReplayer(null, null, null);
 
 	@Before
 	public void setUp() throws Exception {

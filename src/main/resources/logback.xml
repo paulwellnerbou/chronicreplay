@@ -31,6 +31,26 @@
 		</sift>
 	</appender>
 
+    <appender name="datalogger" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>targetserver</key>
+            <defaultValue>default</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
+                <file>chronicreplay-${targetserver}.csv</file>
+                <append>false</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <logger name="de.wellnerbou.chronic.replay.ResultDataLogger" level="debug">
+        <appender-ref ref="datalogger" />
+    </logger>
+
 	<root level="info">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="logfile"/>

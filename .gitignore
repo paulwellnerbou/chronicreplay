@@ -9,3 +9,5 @@ src/test/resources/faz-private-data
 .project
 *.iml
 *.log
+*.csv
+*.png

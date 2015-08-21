@@ -15,10 +15,12 @@ public class LineReplayer {
 	private String host;
 	private String hostHeader = null;
 	private AsyncHttpClient asyncHttpClient;
+	private ResultDataLogger resultDataLogger;
 
-	public LineReplayer(final String host, final AsyncHttpClient asyncHttpClient) {
+	public LineReplayer(final String host, final AsyncHttpClient asyncHttpClient, final ResultDataLogger resultDataLogger) {
 		this.host = host;
 		this.asyncHttpClient = asyncHttpClient;
+		this.resultDataLogger = resultDataLogger;
 	}
 
 	public void replayWithDelay(final LogLineData readLine, final long offset) throws IOException {
@@ -38,7 +40,7 @@ public class LineReplayer {
 			req.setHeader("user-agent", logLineData.getUserAgent());
 		}
 		LOG.debug("Executing request {}: {} with host header {}", req, host + logLineData.getRequest(), hostHeader);
-		req.execute(new LoggingAsyncCompletionHandler(logLineData));
+		req.execute(new LoggingAsyncCompletionHandler(logLineData, resultDataLogger));
 	}
 
 	public void setHostHeader(final String hostHeader) {

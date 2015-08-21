@@ -4,6 +4,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import de.wellnerbou.chronic.logreader.LogLineReader;
 import de.wellnerbou.chronic.logreader.LogLineReaderProvider;
@@ -42,15 +44,16 @@ public class ChronicReplay
     }
 
 	private static void setLoggingDiscriminatorVariable(final OptionSet optionSet) {
-		String targetserver = (String) optionSet.valueOf(URLPREFIX);
+		final String targetserver = (String) optionSet.valueOf(URLPREFIX);
 		MDC.put("targetserver", getLoggingDiscriminatorVariable(targetserver));
 	}
 
 	static String getLoggingDiscriminatorVariable(final String hostPrefix) {
-		return hostPrefix.replaceAll("^(ht|f)tp(s?)://", "").replace('/', '-').replaceAll("[^a-zA-Z0-9_\\-\\.]*", "");
+		final String targetHost = hostPrefix.replaceAll("^(ht|f)tp(s?)://", "").replace(':', '-').replace('/', '-').replaceAll("[^a-zA-Z0-9_\\-\\.]*", "");
+		return targetHost + "_" + new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 	}
 
-	private void replay(final String host, final String file, final Optional<String> virtualHostHeader, final String logReaderId) throws FileNotFoundException, IOException {
+	private void replay(final String host, final String file, final Optional<String> virtualHostHeader, final String logReaderId) throws IOException {
 		this.replay(host, getInputStreamFromGivenFile(file), virtualHostHeader, logReaderId);
 	}
 
@@ -62,7 +65,9 @@ public class ChronicReplay
 		AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
 		LogLineReaderProvider logLineReaderProvider = new LogLineReaderProvider();
 		LogLineReader logLineReader = logLineReaderProvider.getLogLineReader(logReaderId);
-		LineReplayer lineReplayer = new LineReplayer(host, asyncHttpClient);
+		final ResultDataLogger resultDataLogger = new ResultDataLogger();
+		resultDataLogger.logTitles();
+		LineReplayer lineReplayer = new LineReplayer(host, asyncHttpClient, resultDataLogger);
 		if (virtualHostHeader.isPresent()) {
 			lineReplayer.setHostHeader(virtualHostHeader.get());
 		}
