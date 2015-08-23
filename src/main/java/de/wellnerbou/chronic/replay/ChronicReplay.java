@@ -66,7 +66,7 @@ public class ChronicReplay
 		LogLineReaderProvider logLineReaderProvider = new LogLineReaderProvider();
 		LogLineReader logLineReader = logLineReaderProvider.getLogLineReader(logReaderId);
 		final ResultDataLogger resultDataLogger = new ResultDataLogger();
-		resultDataLogger.logTitles();
+		resultDataLogger.logColumnTitles();
 		LineReplayer lineReplayer = new LineReplayer(host, asyncHttpClient, resultDataLogger);
 		if (virtualHostHeader.isPresent()) {
 			lineReplayer.setHostHeader(virtualHostHeader.get());

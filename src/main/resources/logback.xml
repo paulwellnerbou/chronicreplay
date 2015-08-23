@@ -6,7 +6,7 @@
 	</appender>
 
 	<appender name="logfile" class="ch.qos.logback.core.FileAppender">
-		<file>chronicreplay.log</file>
+		<file>log/chronicreplay.log</file>
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%level] [%thread] [%logger] {%msg}%n</pattern>
 		</encoder>
@@ -22,7 +22,7 @@
 		</discriminator>
 		<sift>
 			<appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
-				<file>chronicreplay-${targetserver}.log</file>
+				<file>log/chronicreplay-${targetserver}.log</file>
 				<append>false</append>
 				<layout class="ch.qos.logback.classic.PatternLayout">
 					<pattern>%d{HH:mm:ss.SSS} [%level] [%thread] [%logger] {%msg}%n</pattern>
@@ -38,7 +38,7 @@
         </discriminator>
         <sift>
             <appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
-                <file>chronicreplay-${targetserver}.csv</file>
+                <file>log/chronicreplay-${targetserver}.csv</file>
                 <append>false</append>
                 <layout class="ch.qos.logback.classic.PatternLayout">
                     <pattern>%msg%n</pattern>
@@ -47,8 +47,28 @@
         </sift>
     </appender>
 
-    <logger name="de.wellnerbou.chronic.replay.ResultDataLogger" level="debug">
+    <appender name="datalogger-samestatus" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>targetserver</key>
+            <defaultValue>default</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
+                <file>log/chronicreplay-${targetserver}-sameStatus.csv</file>
+                <append>false</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <logger name="RESULTDATA" level="debug">
         <appender-ref ref="datalogger" />
+    </logger>
+
+    <logger name="RESULTDATA_SAMESTATUS" level="debug">
+        <appender-ref ref="datalogger-samestatus" />
     </logger>
 
 	<root level="info">

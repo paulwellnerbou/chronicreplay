@@ -35,7 +35,7 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 		} catch (NumberFormatException e) {
 			LOG.warn("Unable to parse original status code to int: {}", originalData.getStatusCode());
 		}
-		resultDataLogger.logLine(originalData, response, sameStatus, duration, startTime);
+		resultDataLogger.logResultDataLine(originalData, response, sameStatus, duration, startTime);
 		LOG.info("Status={} OriginalStatus={} SameStatus={} Duration={} OriginalDuration={} Difference={} Request={}", response.getStatusCode(), originalData.getStatusCode(),
 				sameStatus, duration,
 				originalData.getDuration(),

@@ -7,10 +7,16 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 
 public class ResultDataLogger {
-	private static final Logger LOG = LoggerFactory.getLogger(ResultDataLogger.class);
+	private static final Logger RESULTDATA = LoggerFactory.getLogger("RESULTDATA");
+	private static final Logger RESULTDATA_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_SAMESTATUS");
 
-	public void logTitles() {
-		LOG.debug("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}",
+	public void logColumnTitles() {
+		logColumnTitles(RESULTDATA);
+		logColumnTitles(RESULTDATA_SAMESTATUS);
+	}
+
+	private void logColumnTitles(Logger logger) {
+		logger.debug("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}",
 				"StartTime",
 				"OriginalStartTime",
 				"StatusCode", "OriginalStatusCode",
@@ -20,14 +26,21 @@ public class ResultDataLogger {
 				"Request");
 	}
 
-	public void logLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime) {
+	public void logResultDataLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime) {
 		String uriString;
 		try {
 			uriString = response.getUri().toASCIIString();
 		} catch (MalformedURLException e) {
 			uriString = e.getMessage();
 		}
-		LOG.debug("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}",
+		logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA);
+		if(sameStatus) {
+			logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_SAMESTATUS);
+		}
+	}
+
+	private void logResultDataLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime, final String uriString, final Logger logger) {
+		logger.debug("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}",
 				startTime / 1000,
 				originalData.getTime() / 1000,
 				response.getStatusCode(), originalData.getStatusCode(),
