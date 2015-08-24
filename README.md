@@ -54,13 +54,8 @@ Plotting the results with gnuplot
 
 The CSV files created contain all data you will need to plot. The file is tab separated, which is the default data format for gnuplot.
 
-In most cases you are mainly interested in the results containing the same status code. In the CSV data file you can not filter the lines by
-<code>SameStatus=true</code> as in the log file any more. But as this is the only column containing a boolean value, filtering by '\ttrue\t'
-will work.
-
-```
-find -name '*.csv' -exec sh -c 'grep -P "\ttrue\t" {} > {}.sameStatus.csv' \;
-```
+In most cases you are mainly interested in the results containing the same status code. That's why the responses with the same status as
+the original ones are logged additionally in another file, ending with <code>.sameStatus.csv</code>.
 
 Plotting the durations over time with gnuplot:
 
