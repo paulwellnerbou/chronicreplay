@@ -23,14 +23,6 @@ public class LineReplayer {
 		this.resultDataLogger = resultDataLogger;
 	}
 
-	public void replayWithDelay(final LogLineData readLine, final long offset) throws IOException {
-		replay(readLine);
-	}
-
-	protected long getTimeToWait(final long time, final long offset) {
-		return offset - time;
-	}
-
 	public void replay(final LogLineData logLineData) throws IOException {
 		BoundRequestBuilder req = asyncHttpClient.prepareGet(host + logLineData.getRequest());
 		if (hostHeader != null) {
