@@ -2,10 +2,13 @@
 .gradle
 .idea
 /bin
-/logs/*
+/logs
+/log
 src/test/resources/faz-private-data
 .settings
 .classpath
 .project
 *.iml
 *.log
+*.csv
+*.png

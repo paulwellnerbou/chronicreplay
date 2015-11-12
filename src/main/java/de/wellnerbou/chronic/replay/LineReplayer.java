@@ -1,14 +1,13 @@
 package de.wellnerbou.chronic.replay;
 
-import java.io.IOException;
-
+import com.ning.http.client.AsyncHttpClient;
+import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.ning.http.client.AsyncHttpClient;
-import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
+import java.io.IOException;
 
 public class LineReplayer {
 
@@ -18,7 +17,7 @@ public class LineReplayer {
 	private String hostHeader = null;
 	private AsyncHttpClient asyncHttpClient;
 
-    private boolean followRedirects = false;
+	private boolean followRedirects = false;
 
 	public LineReplayer(final String host, final AsyncHttpClient asyncHttpClient) {
 		this.host = host;
@@ -27,7 +26,7 @@ public class LineReplayer {
 
 	public ListenableFuture<Response> replay(final LogLineData logLineData) throws IOException {
 		BoundRequestBuilder req = asyncHttpClient.prepareGet(host + logLineData.getRequest());
-        req.setFollowRedirects(followRedirects);
+		req.setFollowRedirects(followRedirects);
 		if (hostHeader != null) {
 			req = req.setVirtualHost(hostHeader);
 		}
@@ -42,7 +41,7 @@ public class LineReplayer {
 		this.hostHeader = hostHeader;
 	}
 
-    public void setFollowRedirects(boolean followRedirects) {
-        this.followRedirects = followRedirects;
-    }
+	public void setFollowRedirects(boolean followRedirects) {
+		this.followRedirects = followRedirects;
+	}
 }
