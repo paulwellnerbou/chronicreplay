@@ -14,6 +14,7 @@ public class LineReplayer {
 
 	private String host;
 	private String hostHeader = null;
+	private Header header = null;
 	private AsyncHttpClient asyncHttpClient;
 	private ResultDataLogger resultDataLogger;
 
@@ -28,6 +29,9 @@ public class LineReplayer {
 		if (hostHeader != null) {
 			req = req.setVirtualHost(hostHeader);
 		}
+		if(header != null) {
+			req = req.setHeader(header.getName(), header.getValue());
+		}
 		if (logLineData.getUserAgent() != null) {
 			req.setHeader("user-agent", logLineData.getUserAgent());
 		}
@@ -37,5 +41,12 @@ public class LineReplayer {
 
 	public void setHostHeader(final String hostHeader) {
 		this.hostHeader = hostHeader;
+	}
+
+	public void setHeader(final String header) {
+		if(header != null) {
+			final String[] headerNameValue = header.split(":");
+			this.header = new Header(headerNameValue[0], headerNameValue[1]);
+		}
 	}
 }

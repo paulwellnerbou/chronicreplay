@@ -16,8 +16,6 @@ public class LineReplayerTest {
 		long timeReplayStarted = 1000L;
 		long originalTimeLogFileStarted = 900L;
 		long offset = timeReplayStarted - originalTimeLogFileStarted;
-
 		long timeOfOriginalRequest = 1010L;
 	}
-
 }
