@@ -1,11 +1,8 @@
 package de.wellnerbou.chronic.replay;
 
-import com.ning.http.client.HttpResponseHeaders;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.ning.http.client.AsyncCompletionHandler;
 import com.ning.http.client.HttpResponseBodyPart;
+import com.ning.http.client.HttpResponseHeaders;
 import com.ning.http.client.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

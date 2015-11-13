@@ -8,7 +8,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 
 public class ChronicReplayTest
 {
-	@Test(expected = Exception.class)
 	public void testMainOptionParsing() throws IOException {
 		String[] args = new String[] {};
 		ChronicReplay.main(args);

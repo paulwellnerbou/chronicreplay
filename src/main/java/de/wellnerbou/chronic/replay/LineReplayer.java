@@ -1,5 +1,7 @@
 package de.wellnerbou.chronic.replay;
 
+import com.google.common.base.Function;
+import com.google.common.collect.FluentIterable;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.ListenableFuture;
@@ -8,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LineReplayer {
 
@@ -15,7 +19,7 @@ public class LineReplayer {
 
 	private String host;
 	private String hostHeader = null;
-	private Header header = null;
+	private List<Header> headers = new ArrayList<>();
 	private AsyncHttpClient asyncHttpClient;
 	private ResultDataLogger resultDataLogger;
 
@@ -33,13 +37,15 @@ public class LineReplayer {
 		if (hostHeader != null) {
 			req = req.setVirtualHost(hostHeader);
 		}
-		if(header != null) {
+
+		for (final Header header : headers) {
 			req = req.setHeader(header.getName(), header.getValue());
 		}
+
 		if (logLineData.getUserAgent() != null) {
 			req.setHeader("user-agent", logLineData.getUserAgent());
 		}
-		LOG.info("Executing request {}: {} with host header {}", req, host + logLineData.getRequest(), hostHeader);
+		LOG.info("Executing request {}: {} with host headers {}", req, host + logLineData.getRequest(), hostHeader);
 		return req.execute(new LoggingAsyncCompletionHandler(logLineData, resultDataLogger));
 	}
 
@@ -51,10 +57,13 @@ public class LineReplayer {
 		this.followRedirects = followRedirects;
 	}
 
-	public void setHeader(final String header) {
-		if(header != null) {
-			final String[] headerNameValue = header.split(":");
-			this.header = new Header(headerNameValue[0], headerNameValue[1]);
-		}
+	public void setHeaders(final List<String> headers) {
+		this.headers = FluentIterable.from(headers).transform(new Function<String, Header>() {
+			@Override
+			public Header apply(final String input) {
+				final String[] parts = input.split(":");
+				return new Header(parts[0], parts.length > 1 ? parts[1] : "");
+			}
+		}).toList();
 	}
 }
