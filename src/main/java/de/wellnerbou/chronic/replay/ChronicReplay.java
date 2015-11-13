@@ -36,6 +36,7 @@ public class ChronicReplay {
 		optionParser.accepts(HEADER, "HTTP Header").withRequiredArg();
 		optionParser.accepts(LOGFILE, "Logfile to replay").withRequiredArg().required();
 		optionParser.accepts(LOGREADERID, "Id of the reader class which should be used to read the given log file.").withRequiredArg().required();
+		optionParser.accepts(FOLLOWREDIRECTS, "Follow redirects");
 
 		OptionSet optionSet = optionParser.parse(args);
 		ChronicReplay chronicReplay = new ChronicReplay();
