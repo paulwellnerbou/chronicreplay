@@ -1,13 +1,13 @@
 package de.wellnerbou.chronic.replay;
 
+import de.wellnerbou.chronic.logreader.LogLineReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
-import de.wellnerbou.chronic.logreader.LogLineReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LogReplayReader {
 
@@ -30,7 +30,7 @@ public class LogReplayReader {
 
 			lineData = logLineReader.parseLine(line);
 			Delayer delayer = new Delayer(lineData.getTime());
-			lineReplayer.replay(logLineReader.parseLine(line));
+			lineReplayer.replay(lineData);
 
 			while ((line = reader.readLine()) != null) {
 				try {
@@ -42,5 +42,7 @@ public class LogReplayReader {
 				}
 			}
 		}
+
+		reader.close();
 	}
 }

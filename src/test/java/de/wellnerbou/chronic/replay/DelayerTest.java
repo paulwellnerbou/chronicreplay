@@ -7,10 +7,6 @@ import org.junit.Test;
 
 public class DelayerTest {
 
-	@Before
-	public void setUp() {
-	}
-
 	@Test
 	public void testGetDelay_before() {
 		long timeReplayStarted = 200L;

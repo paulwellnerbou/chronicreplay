@@ -34,5 +34,4 @@ public class LogLineReaderProviderTest {
 		LogLineReader logLineReader = logLineReaderProvider.getLogLineReader("dummy");
 		assertThat(logLineReader).isInstanceOf(DummyLogLineReader.class);
 	}
-
 }
