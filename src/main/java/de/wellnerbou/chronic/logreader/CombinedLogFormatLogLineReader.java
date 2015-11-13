@@ -26,7 +26,7 @@ import de.wellnerbou.chronic.replay.LogLineData;
  * Unfortunately, there is no request duration time information in this log message, so it won't be possible to compare
  * the original and the actual time, you will just be able to simulate traffic on your target system.
  * 
- * @author Paul Wellner Bou <pwb@faz.net>
+ * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
 public class CombinedLogFormatLogLineReader extends CommonLogFormatLogLineReader {
 

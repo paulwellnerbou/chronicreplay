@@ -13,7 +13,7 @@ import de.wellnerbou.chronic.replay.LogLineData;
  * %D %{X-Forwarded-For}i %h"
  * </pre>
  *
- * @author Paul Wellner Bou <pwb@faz.net>
+ * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
 public class FazDefaultLogLineReader extends CombinedWithDurationLogLineReader {
 

@@ -22,7 +22,7 @@ import de.wellnerbou.chronic.replay.LogLineData;
  * href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">http://httpd.apache.org/docs/current/mod/
  * mod_log_config.html</a>.
  *
- * @author Paul Wellner Bou <pwb@faz.net>
+ * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
 public class CombinedWithDurationLogLineReader extends CombinedLogFormatLogLineReader {
 
