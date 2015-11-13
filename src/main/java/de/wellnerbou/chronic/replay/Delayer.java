@@ -20,7 +20,7 @@ public class Delayer {
 	public void delay(final long originalRequestTime) throws InterruptedException {
 		long delayTime = getDelayTo(originalRequestTime);
 		if (delayTime < 0) {
-			LOG.info("{} ms behind our replay schedule, executing immediately, originalRequestTime: {}", delayTime, originalRequestTime);
+			LOG.info("{} ms behind replay schedule, executing immediately, originalRequestTime: {}", delayTime, originalRequestTime);
 		} else if (delayTime > 0) {
 			LOG.info("Waiting {} ms to fire the next request, originalRequestTime: {}", delayTime, originalRequestTime);
 			Thread.sleep(delayTime);

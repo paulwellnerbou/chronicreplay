@@ -6,17 +6,17 @@ Replays Apache Logfiles against a given target host considering the original tim
 How to build
 ------------
 
-	gradle build
+	./gradlew build
 
 How to run from source directory with gradle
 ---------------------------------------------
 
-	gradle run -Pargs='--urlprefix=http://localhost --logfile=src/test/resources/combined-log-example.log --logreader=combined'
+	./gradlew run -Pargs='--urlprefix=http://localhost --logfile=src/test/resources/combined-log-example.log --logreader=combined'
 
 How to build a binary distribution
 ----------------------------------
 
-	gradle installApp
+	./gradlew installDist
 	
 The distribution will be put into build/install. For more options about packaging and distribution, see
 http://www.gradle.org/docs/current/userguide/application_plugin.html.
@@ -48,3 +48,29 @@ See http://httpd.apache.org/docs/current/mod/mod_log_config.html for more inform
 
 To parse the microseconds you will get then, you can use the code in de.wellnerbou.chronic.logreader.CombinedWithDurationLogLineReader or you
 can extend from this class, overwriting the extractDuration method or/and the parseLine method.
+
+Plotting the results with gnuplot
+---------------------------------
+
+The CSV files created contain all data you will need to plot. The file is tab separated, which is the default data format for gnuplot.
+
+In most cases you are mainly interested in the results containing the same status code. That's why the responses with the same status as
+the original ones are logged additionally in another file, ending with <code>.sameStatus.csv</code>.
+
+Plotting the durations over time with gnuplot:
+
+```
+gnuplot> set timefmt "%s"
+gnuplot> set format x "%H:%M:%S"
+gnuplot> set xdata time
+gnuplot> plot "chronicreplay-host_2015-08-21_08-48-42.csv" using 1:6
+```
+
+Overlaying results from different servers in one plot:
+
+```
+gnuplot> set timefmt "%s"
+gnuplot> set format x "%H:%M:%S"
+gnuplot> set xdata time
+gnuplot> plot "chronicreplay-host1_2015-08-21_08-48-42.csv" using 1:6, "chronicreplay-host2_2015-08-21_08-48-42.csv" using 1:6
+```
