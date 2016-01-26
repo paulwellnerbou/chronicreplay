@@ -11,7 +11,7 @@ How to build
 How to run from source directory with gradle
 ---------------------------------------------
 
-	./gradlew run -Pargs='--urlprefix=http://localhost --logfile=src/test/resources/combined-log-example.log --logreader=combined'
+	./gradlew run -Pargs='--host=http://localhost --logfile=src/test/resources/combined-log-example.log --logreader=combined'
 
 How to build a binary distribution
 ----------------------------------
@@ -44,7 +44,7 @@ How to get duration comparisons in your chronicreplayer's logfiles
 ------------------------------------------------------------------
 
 Apache does not log the duration of the requests in the default log formats. To achieve this, you have to add '%D' to your LogFormat.
-See http://httpd.apache.org/docs/current/mod/mod_log_config.html for more information of customizing your LogFormat.
+See (http://httpd.apache.org/docs/current/mod/mod_log_config.html) for more information of customizing your LogFormat.
 
 To parse the microseconds you will get then, you can use the code in de.wellnerbou.chronic.logreader.CombinedWithDurationLogLineReader or you
 can extend from this class, overwriting the extractDuration method or/and the parseLine method.
