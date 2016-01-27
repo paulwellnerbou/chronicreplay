@@ -1,6 +1,11 @@
+plugins {
+    id "com.jfrog.bintray" version "1.2"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
+apply plugin: 'maven-publish'
 
 group = 'de.wellnerbou'
 version = '1.4'
@@ -8,6 +13,18 @@ version = '1.4'
 description = """chronicreplay"""
 
 mainClassName = "de.wellnerbou.chronic.replay.ChronicReplay"
+
+// user and key configuration for bintray deployment:
+// ./gradlew bintrayUpload -PpublishUser=<USER> -PpublishKey=<KEY>
+if (!project.hasProperty("publishUser")) {
+    ext.publishUser = ""
+}
+if (!project.hasProperty("publishKey")) {
+    ext.publishKey = ""
+}
+//if (!project.hasProperty("publishPassword")) {
+//    ext.publishPassword = ""
+//}
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -20,6 +37,38 @@ run {
 
 test {
 	filter { includeTestsMatching "*Test" }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = 'chronicreplay'
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+bintray {
+    user = "$publishUser"
+    key = "$publishKey"
+    publications = ['mavenJava']
+
+    dryRun = false
+    publish = true
+
+    pkg {
+        repo = 'maven'
+        name = 'chronicreplay'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/paulwellnerbou/chronicreplay'
+    }
 }
 
 repositories { maven { url "http://repo.maven.apache.org/maven2" } }
