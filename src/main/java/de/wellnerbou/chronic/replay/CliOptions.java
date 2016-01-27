@@ -29,4 +29,10 @@ public interface CliOptions {
 
 	@Option(longName="no-delay")
 	boolean getNoDelay();
+
+	@Option(defaultValue = "23:59:59")
+	String getUntil();
+
+	@Option(defaultValue = "00:00:00")
+	String getFrom();
 }

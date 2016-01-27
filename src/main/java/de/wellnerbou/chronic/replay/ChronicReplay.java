@@ -8,8 +8,8 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider;
 import de.wellnerbou.chronic.logreader.LogLineReader;
 import de.wellnerbou.chronic.logreader.LogLineReaderProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 import org.slf4j.MDC;
 
 import java.io.FileInputStream;
@@ -20,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ChronicReplay {
-	private static final Logger LOG = LoggerFactory.getLogger(LineReplayer.class);
 
 	public static void main(final String[] args) throws IOException {
 		final Cli<CliOptions> cli = CliFactory.createCli(CliOptions.class);
@@ -68,8 +67,12 @@ public class ChronicReplay {
 		lineReplayer.setFollowRedirects(options.getFollowRedirects());
 		LogReplayReader logReplayReader = new LogReplayReader(lineReplayer, logLineReader);
 		logReplayReader.setNoDelay(options.getNoDelay());
-		logReplayReader.readAndReplay(inputStream);
+		logReplayReader.readAndReplay(inputStream, convertToDateTime(options.getFrom()), convertToDateTime(options.getUntil()));
 		close(asyncHttpClient);
+	}
+
+	protected DateTime convertToDateTime(final String until) {
+		return DateTime.parse(until, DateTimeFormat.forPattern("HH:mm:ss"));
 	}
 
 	private void close(AsyncHttpClient asyncHttpClient) {

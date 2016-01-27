@@ -3,6 +3,7 @@ package de.wellnerbou.chronic.replay;
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
 import de.wellnerbou.chronic.logreader.LogLineReader;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,36 +30,59 @@ public class LogReplayReader {
 		this.logLineReader = logLineReader;
 	}
 
-	public void readAndReplay(final InputStream is) throws IOException {
+	public void readAndReplay(final InputStream is, final DateTime from, final DateTime until) throws IOException {
+		LOG.info("Replaying until {}", until.toLocalTime());
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 			String line;
 			LogLineData lineData;
 			if ((line = reader.readLine()) != null) {
 				lineData = logLineReader.parseLine(line);
-				Delayer delayer = new Delayer(lineData.getTime());
-				lineReplayer.replay(lineData);
+				if (isBeforeTimeRangeEnd(until, lineData)) {
+					Delayer delayer = new Delayer(lineData.getTime());
+					lineReplayer.replay(lineData);
 
-				while ((line = reader.readLine()) != null) {
-					try {
-						lineData = logLineReader.parseLine(line);
-						if (!noDelay) {
-							delayer.delay(lineData.getTime());
+					while ((line = reader.readLine()) != null && isBeforeTimeRangeEnd(until, lineData)) {
+						try {
+							lineData = logLineReader.parseLine(line);
+							if (isInTimeRange(from, lineData)) {
+								if (!noDelay) {
+									delayer.delay(lineData.getTime());
+								}
+								spawnedFutures.add(lineReplayer.replay(lineData));
+							}
+						} catch (InterruptedException | RuntimeException e) {
+							LOG.error("Exception replaying line {}", line, e);
 						}
-						spawnedFutures.add(lineReplayer.replay(lineData));
-					} catch (InterruptedException | RuntimeException e) {
-						LOG.error("Exception replaying line {}", line, e);
 					}
 				}
 			}
 		}
 
-		for(ListenableFuture spawnedFuture : spawnedFutures) {
+		for (ListenableFuture spawnedFuture : spawnedFutures) {
 			try {
 				spawnedFuture.get();
 			} catch (InterruptedException | ExecutionException e) {
 				LOG.warn("Unable to terminate thread {}", spawnedFuture);
 			}
 		}
+	}
+
+	private boolean isInTimeRange(final DateTime from, final LogLineData lineData) {
+		final DateTime time = new DateTime(lineData.getTime());
+		if (from.toLocalTime().isAfter(time.toLocalTime())) {
+			LOG.info("Skipping replay, {} before {}", time.toLocalTime(), from.toLocalTime());
+			return false;
+		}
+		return true;
+	}
+
+	private boolean isBeforeTimeRangeEnd(final DateTime until, final LogLineData lineData) {
+		final DateTime time = new DateTime(lineData.getTime());
+		if (time.toLocalTime().isBefore(until.toLocalTime())) {
+			return true;
+		}
+		LOG.info("Canceling replay, {} not before {}", time.toLocalTime(), until.toLocalTime());
+		return false;
 	}
 
 	public void setNoDelay(final boolean noDelay) {
