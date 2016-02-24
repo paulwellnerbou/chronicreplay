@@ -67,6 +67,7 @@ public class ChronicReplay {
 		lineReplayer.setFollowRedirects(options.getFollowRedirects());
 		LogReplayReader logReplayReader = new LogReplayReader(lineReplayer, logLineReader);
 		logReplayReader.setNoDelay(options.getNoDelay());
+		logReplayReader.setWaitForTermination(options.getWaitForTermination());
 		logReplayReader.readAndReplay(inputStream, convertToDateTime(options.getFrom()), convertToDateTime(options.getUntil()));
 		close(asyncHttpClient);
 	}

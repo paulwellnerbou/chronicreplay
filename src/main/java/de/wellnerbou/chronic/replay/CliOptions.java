@@ -35,4 +35,7 @@ public interface CliOptions {
 
 	@Option(defaultValue = "00:00:00")
 	String getFrom();
+
+	@Option(longName="wait-for-termination")
+	boolean getWaitForTermination();
 }

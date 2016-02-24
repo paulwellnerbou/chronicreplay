@@ -24,6 +24,7 @@ public class LogReplayReader {
 	private boolean noDelay;
 
 	private List<ListenableFuture<Response>> spawnedFutures = new ArrayList<>();
+	private boolean waitForTermination;
 
 	public LogReplayReader(final LineReplayer lineReplayer, final LogLineReader logLineReader) {
 		this.lineReplayer = lineReplayer;
@@ -31,7 +32,7 @@ public class LogReplayReader {
 	}
 
 	public void readAndReplay(final InputStream is, final DateTime from, final DateTime until) throws IOException {
-		LOG.info("Replaying until {}", until.toLocalTime());
+		LOG.info("Replaying from {} until {}", from.toLocalTime(), until.toLocalTime());
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 			String line;
 			LogLineData lineData;
@@ -48,7 +49,11 @@ public class LogReplayReader {
 								if (!noDelay) {
 									delayer.delay(lineData.getTime());
 								}
-								spawnedFutures.add(lineReplayer.replay(lineData));
+								if(waitForTermination) {
+									spawnedFutures.add(lineReplayer.replay(lineData));
+								} else {
+									lineReplayer.replay(lineData);
+								}
 							}
 						} catch (InterruptedException | RuntimeException e) {
 							LOG.error("Exception replaying line {}", line, e);
@@ -87,5 +92,9 @@ public class LogReplayReader {
 
 	public void setNoDelay(final boolean noDelay) {
 		this.noDelay = noDelay;
+	}
+
+	public void setWaitForTermination(final boolean waitForTermination) {
+		this.waitForTermination = waitForTermination;
 	}
 }

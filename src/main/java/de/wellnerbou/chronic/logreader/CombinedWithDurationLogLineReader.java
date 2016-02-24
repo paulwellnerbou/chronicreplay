@@ -18,9 +18,7 @@ import de.wellnerbou.chronic.replay.LogLineData;
  *
  * This format is derived from the standard apache format named NCSA extended/combined log format, enhanced by the
  * duration of the request (%D). This is
- * documented on <a
- * href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">http://httpd.apache.org/docs/current/mod/
- * mod_log_config.html</a>.
+ * documented on <a href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">http://httpd.apache.org/docs/current/mod/mod_log_config.html</a>.
  *
  * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
@@ -43,6 +41,12 @@ public class CombinedWithDurationLogLineReader extends CombinedLogFormatLogLineR
 		return logLineData;
 	}
 
+	/**
+	 * %D is the duration in microseconds
+	 *
+	 * @param s
+	 * @return the duration in milliseconds
+	 */
 	protected long formatDuration(final String s) {
 		Double dur = Long.parseLong(s) / 1000D;
 		return Math.round(dur);

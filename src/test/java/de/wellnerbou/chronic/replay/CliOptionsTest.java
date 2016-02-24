@@ -29,12 +29,19 @@ public class CliOptionsTest {
 		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "");
 		Assertions.assertThat(options.getFollowRedirects()).isFalse();
 		Assertions.assertThat(options.getHeader()).isEmpty();
+		Assertions.assertThat(options.getWaitForTermination()).isFalse();
 	}
 
 	@Test
 	public void testFollowRedirectsFlag() {
 		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--followRedirects");
 		Assertions.assertThat(options.getFollowRedirects()).isTrue();
+	}
+
+	@Test
+	public void testWaitForTerminationFlag() {
+		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--wait-for-termination");
+		Assertions.assertThat(options.getWaitForTermination()).isTrue();
 	}
 
 	@Test
