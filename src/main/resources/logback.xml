@@ -14,8 +14,7 @@
 
 	<appender name="siftingfileappender" class="ch.qos.logback.classic.sift.SiftingAppender">
     <!-- in the absence of the class attribute, it is assumed that the
-         desired discriminator type is
-         ch.qos.logback.classic.sift.MDCBasedDiscriminator -->
+         desired discriminator type is ch.qos.logback.classic.sift.MDCBasedDiscriminator -->
 		<discriminator>
 			<key>targetserver</key>
 			<defaultValue>default</defaultValue>
