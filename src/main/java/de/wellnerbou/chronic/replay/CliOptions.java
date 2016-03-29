@@ -9,33 +9,36 @@ import java.util.List;
  */
 public interface CliOptions {
 
-	@Option
-	String getLogfile();
+    @Option
+    String getLogfile();
 
-	@Option
-	String getHost();
+    @Option
+    String getHost();
 
-	@Option(defaultToNull = true)
-	String getHostheader();
+    @Option(defaultToNull = true)
+    String getHostheader();
 
-	@Option(defaultValue = {})
-	List<String> getHeader();
+    @Option(defaultValue = {})
+    List<String> getHeader();
 
-	@Option
-	String getLogreader();
+    @Option
+    String getLogreader();
 
-	@Option
-	boolean getFollowRedirects();
+    @Option
+    boolean getFollowRedirects();
 
-	@Option(longName="no-delay")
-	boolean getNoDelay();
+    @Option(longName = "no-delay")
+    boolean getNoDelay();
 
-	@Option(defaultValue = "23:59:59")
-	String getUntil();
+    @Option(defaultValue = "23:59:59")
+    String getUntil();
 
-	@Option(defaultValue = "00:00:00")
-	String getFrom();
+    @Option(defaultValue = "00:00:00")
+    String getFrom();
 
-	@Option(longName="wait-for-termination")
-	boolean getWaitForTermination();
+    @Option(longName = "wait-for-termination")
+    boolean getWaitForTermination();
+
+    @Option(longName = "request-filter")
+    String getRequestFilter();
 }

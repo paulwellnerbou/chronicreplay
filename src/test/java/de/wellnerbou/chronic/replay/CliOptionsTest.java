@@ -51,6 +51,12 @@ public class CliOptionsTest {
 	}
 
 	@Test
+	public void testRequestFilter() {
+		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--request-filter=\"^/req.*\"");
+		Assertions.assertThat(options.getRequestFilter()).isEqualTo("^/req.*");
+	}
+
+	@Test
 	public void testHeaderList() {
 		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--header", "Accept: nothing", "--header", "Host: example.com");
 		Assertions.assertThat(options.getHeader()).hasSize(2);
