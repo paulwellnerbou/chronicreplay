@@ -16,7 +16,7 @@ unzip chronicreplay*.zip
 
 Where "combined" is the name of the logfile reader exptecting Apache's combined log format
 (see [Apache's documentation](http://httpd.apache.org/docs/current/mod/mod_log_config.html) and
-[CombinedLogFormatLogLineReader](master/src/main/java/de/wellnerbou/chronic/logreader/CombinedLogFormatLogLineReader.java)'s JavaDoc).
+[CombinedLogFormatLogLineReader](src/main/java/de/wellnerbou/chronic/logreader/CombinedLogFormatLogLineReader.java)'s JavaDoc).
 
 How to build
 ------------
