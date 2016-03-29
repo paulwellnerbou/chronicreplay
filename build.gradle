@@ -3,7 +3,7 @@ apply plugin: 'maven'
 apply plugin: 'application'
 
 group = 'de.wellnerbou'
-version = '1.4.2'
+version = '1.4.2-SNAPSHOT'
 
 description = """chronicreplay"""
 
