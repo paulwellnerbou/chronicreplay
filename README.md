@@ -1,7 +1,18 @@
 chronicreplay
 =============
 
-Replays Apache Logfiles against a given target host considering the original time delays between requests
+Replays Logfiles (especially Apache logfiles) against a given target host considering the original time delays between requests
+
+How to run
+------------
+
+Download the [latest release](releases/latest), unzip it and run it:
+
+```
+wget https://github.com/paulwellnerbou/chronicreplay/releases/download/v1.4.2/chronicreplay-1.4.2.zip
+unzip chronicreplay*.zip
+./chronicreplay-*/bin/chronicreplay --host=host.to.replay.against --logfile=/path/to/your/logfile --logreader=combined
+```
 
 How to build
 ------------
