@@ -6,13 +6,17 @@ Replays Logfiles (especially Apache logfiles) against a given target host consid
 How to run
 ------------
 
-Download the [latest release](releases/latest), unzip it and run it:
+Download the [latest release](https://github.com/paulwellnerbou/chronicreplay/releases/latest), unzip it and run it:
 
 ```
 wget https://github.com/paulwellnerbou/chronicreplay/releases/download/v1.4.2/chronicreplay-1.4.2.zip
 unzip chronicreplay*.zip
 ./chronicreplay-*/bin/chronicreplay --host=host.to.replay.against --logfile=/path/to/your/logfile --logreader=combined
 ```
+
+Where "combined" is the name of the logfile reader exptecting Apache's combined log format
+(see [http://httpd.apache.org/docs/current/mod/mod_log_config.html](Apache's documentation) and
+[master/src/main/java/de/wellnerbou/chronic/logreader/CombinedLogFormatLogLineReader.java](CombinedLogFormatLogLineReader)'s JavaDoc).
 
 How to build
 ------------
