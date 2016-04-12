@@ -10,7 +10,7 @@ import de.wellnerbou.chronic.plugins.ServiceLoaderImplementationProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LogLineReaderProvider extends ServiceLoaderImplementationProvider<LogLineParser> {
+public class LogLineParserProvider extends ServiceLoaderImplementationProvider<LogLineParser> {
 
 	@Override
 	protected boolean matches(final String id, final LogLineParser implementation) {

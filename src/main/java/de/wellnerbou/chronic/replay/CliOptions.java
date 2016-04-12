@@ -27,7 +27,7 @@ public interface CliOptions {
 	@Option
 	boolean getFollowRedirects();
 
-	@Option(longName="no-delay")
+	@Option(longName = "no-delay")
 	boolean getNoDelay();
 
 	@Option(defaultValue = "23:59:59")
@@ -36,6 +36,9 @@ public interface CliOptions {
 	@Option(defaultValue = "00:00:00")
 	String getFrom();
 
-	@Option(longName="wait-for-termination")
+	@Option(longName = "wait-for-termination")
 	boolean getWaitForTermination();
+
+	@Option(longName = "logreader", defaultValue = "file")
+	String getLogreader();
 }

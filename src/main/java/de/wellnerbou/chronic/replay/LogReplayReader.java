@@ -39,23 +39,24 @@ public class LogReplayReader {
 			Object line;
 			LogLineData lineData;
 
-			if ((line = logSourceReader.next()) != null) {
-				lineData = logLineParser.parseLine(line);
+			if ((line = logSourceReader.next()) != null && (lineData = logLineParser.parseLine(line)) != null) {
 				if (isBeforeTimeRangeEnd(until, lineData)) {
 					Delayer delayer = new Delayer(lineData.getTime());
 					lineReplayer.replay(lineData);
 
-					while ((line = logSourceReader.next()) != null && isBeforeTimeRangeEnd(until, lineData)) {
+					while ((line = logSourceReader.next()) != null && lineData != null && isBeforeTimeRangeEnd(until, lineData)) {
 						try {
 							lineData = logLineParser.parseLine(line);
-							if (isInTimeRange(from, lineData)) {
-								if (!noDelay) {
-									delayer.delay(lineData.getTime());
-								}
-								if(waitForTermination) {
-									spawnedFutures.add(lineReplayer.replay(lineData));
-								} else {
-									lineReplayer.replay(lineData);
+							if(lineData != null) {
+								if (isInTimeRange(from, lineData)) {
+									if (!noDelay) {
+										delayer.delay(lineData.getTime());
+									}
+									if (waitForTermination) {
+										spawnedFutures.add(lineReplayer.replay(lineData));
+									} else {
+										lineReplayer.replay(lineData);
+									}
 								}
 							}
 						} catch (InterruptedException | RuntimeException e) {

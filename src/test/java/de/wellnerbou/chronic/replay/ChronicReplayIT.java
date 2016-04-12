@@ -10,7 +10,16 @@ public class ChronicReplayIT {
 	public void testRun() throws IOException {
 		String[] args = new String[] { "--host=http://localhost",
 				"--logfile=src/test/resources/combined-log-example.log",
-				"--logreader=combined" };
+				"--logparser=combined" };
+		ChronicReplay.main(args);
+	}
+
+	@Test
+	public void testRunWithLocalJsonFile() throws IOException {
+		String[] args = new String[] { "--host=http://localhost",
+				"--logfile=src/test/resources/elasticsearch-example.json",
+				"--logreader=jsonreader",
+				"--logparser=elasticsearch" };
 		ChronicReplay.main(args);
 	}
 }

@@ -9,17 +9,17 @@ import org.junit.Test;
 
 public class LogLineParserProviderTest {
 
-	LogLineReaderProvider logLineReaderProvider = new LogLineReaderProvider();
+	LogLineParserProvider logLineParserProvider = new LogLineParserProvider();
 
 	@Test
 	public void testGetAllLogLineReader_noImplFound() {
-		List<LogLineParser> logLineParser = logLineReaderProvider.getAllImplementations("[Id without any implementation]");
+		List<LogLineParser> logLineParser = logLineParserProvider.getAllImplementations("[Id without any implementation]");
 		assertThat(logLineParser.size()).isEqualTo(0);
 	}
 
 	@Test
 	public void testGetAllLogLineReader_dummy() {
-		List<LogLineParser> logLineParser = logLineReaderProvider.getAllImplementations("dummy");
+		List<LogLineParser> logLineParser = logLineParserProvider.getAllImplementations("dummy");
 		assertThat(logLineParser.size()).isEqualTo(1);
 		assertThat(logLineParser.get(0)).isInstanceOf(DummyLogLineParser.class);
 	}
@@ -27,12 +27,12 @@ public class LogLineParserProviderTest {
 	@Test(expected = NoImplementationFoundException.class)
 	public void testGetLogLineReader_noImplFound() {
 		@SuppressWarnings("unused")
-		LogLineParser logLineParser = logLineReaderProvider.getImplementation("[Id without any implementation]");
+		LogLineParser logLineParser = logLineParserProvider.getImplementation("[Id without any implementation]");
 	}
 
 	@Test
 	public void testGetLogLineReader_dummy() {
-		LogLineParser logLineParser = logLineReaderProvider.getImplementation("dummy");
+		LogLineParser logLineParser = logLineParserProvider.getImplementation("dummy");
 		assertThat(logLineParser).isInstanceOf(DummyLogLineParser.class);
 	}
 }

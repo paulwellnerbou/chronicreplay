@@ -7,6 +7,7 @@ public class LogLineData {
 	private long duration;
 	private String statusCode;
 	private String userAgent;
+	private String referrer;
 
 	public long getTime() {
 		return time;
@@ -54,5 +55,9 @@ public class LogLineData {
 
 	public void setUserAgent(String userAgent) {
 		this.userAgent = userAgent;
+	}
+
+	public void setReferrer(final String referrer) {
+		this.referrer = referrer;
 	}
 }

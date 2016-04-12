@@ -30,6 +30,7 @@ public class CliOptionsTest {
 		Assertions.assertThat(options.getFollowRedirects()).isFalse();
 		Assertions.assertThat(options.getHeader()).isEmpty();
 		Assertions.assertThat(options.getWaitForTermination()).isFalse();
+		Assertions.assertThat(options.getLogreader()).isEqualTo("file");
 	}
 
 	@Test
@@ -48,6 +49,12 @@ public class CliOptionsTest {
 	public void testNoDelayFlag() {
 		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--no-delay");
 		Assertions.assertThat(options.getNoDelay()).isTrue();
+	}
+
+	@Test
+	public void testLogReaderOption() {
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--logreader", "url");
+		Assertions.assertThat(options.getLogreader()).isEqualTo("url");
 	}
 
 	@Test
