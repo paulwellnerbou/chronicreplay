@@ -2,7 +2,7 @@ package de.wellnerbou.chronic.replay;
 
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
-import de.wellnerbou.chronic.logreader.LogLineReader;
+import de.wellnerbou.chronic.logparser.LogLineParser;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,15 +20,15 @@ public class LogReplayReader {
 	private static final Logger LOG = LoggerFactory.getLogger(LogReplayReader.class);
 
 	private LineReplayer lineReplayer;
-	private LogLineReader logLineReader;
+	private LogLineParser logLineParser;
 	private boolean noDelay;
 
 	private List<ListenableFuture<Response>> spawnedFutures = new ArrayList<>();
 	private boolean waitForTermination;
 
-	public LogReplayReader(final LineReplayer lineReplayer, final LogLineReader logLineReader) {
+	public LogReplayReader(final LineReplayer lineReplayer, final LogLineParser logLineParser) {
 		this.lineReplayer = lineReplayer;
-		this.logLineReader = logLineReader;
+		this.logLineParser = logLineParser;
 	}
 
 	public void readAndReplay(final InputStream is, final DateTime from, final DateTime until) throws IOException {
@@ -37,14 +37,14 @@ public class LogReplayReader {
 			String line;
 			LogLineData lineData;
 			if ((line = reader.readLine()) != null) {
-				lineData = logLineReader.parseLine(line);
+				lineData = logLineParser.parseLine(line);
 				if (isBeforeTimeRangeEnd(until, lineData)) {
 					Delayer delayer = new Delayer(lineData.getTime());
 					lineReplayer.replay(lineData);
 
 					while ((line = reader.readLine()) != null && isBeforeTimeRangeEnd(until, lineData)) {
 						try {
-							lineData = logLineReader.parseLine(line);
+							lineData = logLineParser.parseLine(line);
 							if (isInTimeRange(from, lineData)) {
 								if (!noDelay) {
 									delayer.delay(lineData.getTime());

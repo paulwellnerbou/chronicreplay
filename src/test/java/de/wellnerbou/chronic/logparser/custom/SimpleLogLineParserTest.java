@@ -1,17 +1,15 @@
-package de.wellnerbou.chronic.logreader.custom;
+package de.wellnerbou.chronic.logparser.custom;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 import org.fest.assertions.api.Assertions;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
-public class SimpleLogLineReaderTest {
+public class SimpleLogLineParserTest {
 
-	SimpleLogLineReader simpleLogLineReader = new SimpleLogLineReader();
+	SimpleLogLineParser simpleLogLineReader = new SimpleLogLineParser();
 
 	@Test
 	public void testParseLineException() {

@@ -22,7 +22,7 @@ public interface CliOptions {
 	List<String> getHeader();
 
 	@Option
-	String getLogreader();
+	String getLogparser();
 
 	@Option
 	boolean getFollowRedirects();

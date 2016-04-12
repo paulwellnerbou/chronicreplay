@@ -1,4 +1,4 @@
-package de.wellnerbou.chronic.logreader;
+package de.wellnerbou.chronic.logparser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 
-public class CommonLogFormatLogLineReaderTest {
+public class CommonLogFormatLogLineParserTest {
 
-	CommonLogFormatLogLineReader commonLogFormatLogLineReader = new CommonLogFormatLogLineReader();
+	CommonLogFormatLogLineParser commonLogFormatLogLineReader = new CommonLogFormatLogLineParser();
 
 	@Test
 	public void testFormatDate() {

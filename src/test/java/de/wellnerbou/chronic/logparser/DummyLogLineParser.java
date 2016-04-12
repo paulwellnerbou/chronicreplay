@@ -1,8 +1,8 @@
-package de.wellnerbou.chronic.logreader;
+package de.wellnerbou.chronic.logparser;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 
-public class DummyLogLineReader implements LogLineReader {
+public class DummyLogLineParser implements LogLineParser {
 
 	@Override
 	public LogLineData parseLine(final String logLine) {

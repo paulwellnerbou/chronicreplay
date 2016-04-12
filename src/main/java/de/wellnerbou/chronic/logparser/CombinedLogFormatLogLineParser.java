@@ -1,11 +1,11 @@
-package de.wellnerbou.chronic.logreader;
+package de.wellnerbou.chronic.logparser;
 
 import com.google.common.annotations.VisibleForTesting;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 
 /**
- * Implementation of LogLineReader supporting apache log files written in following format, defined in
+ * Implementation of LogLineParser supporting apache log files written in following format, defined in
  * mod_log_config.conf:
  * 
  * <pre>
@@ -28,10 +28,10 @@ import de.wellnerbou.chronic.replay.LogLineData;
  * 
  * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
-public class CombinedLogFormatLogLineReader extends CommonLogFormatLogLineReader {
+public class CombinedLogFormatLogLineParser extends CommonLogFormatLogLineParser {
 
 	/* (non-Javadoc)
-	 * @see de.wellnerbou.chronic.logreader.LogLineReader#parseLine(java.lang.String)
+	 * @see de.wellnerbou.chronic.logreader.LogLineParser#parseLine(java.lang.String)
 	 */
 	@Override
 	public LogLineData parseLine(final String logLine) {

@@ -1,13 +1,13 @@
-package de.wellnerbou.chronic.logreader.custom;
+package de.wellnerbou.chronic.logparser.custom;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 import org.junit.Test;
 
-public class FazDefaultLogLineReaderTest {
+public class FazDefaultLogLineParserTest {
 
-	FazDefaultLogLineReader fazDefaultLogLineReader = new FazDefaultLogLineReader();
+	FazDefaultLogLineParser fazDefaultLogLineReader = new FazDefaultLogLineParser();
 
 	@Test
 	public void testParseLine() {
