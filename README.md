@@ -38,7 +38,7 @@ http://www.gradle.org/docs/current/userguide/application_plugin.html.
 
 To run the application, you will find the start scripts for Windows and Unix/Linux in build/install/chronicreplay/bin.
 
-How to write a custom logfile reader
+How to write a custom log line parser
 ------------------------------------
 
 The selection of the logfile reader (implementation of LogLineReader) is done using Java's ServiceLoader.
@@ -46,14 +46,14 @@ See http://docs.oracle.com/javase/7/docs/api/java/util/ServiceLoader.html for mo
 
 The steps you have to follow:
 
-* Create your own implementation of LogLineReader
-* Add the classname to src/main/resources/META-INF/services/de.wellnerbou.chronic.logreader.LogLineReader
-* Use --logreader=ID-OF-YOUR-IMPLEMENTATION starting the program
+* Create your own implementation of LogLineParser
+* Add the classname to src/main/resources/META-INF/services/de.wellnerbou.chronic.logparser.LogLineParser
+* Use --logparser=ID-OF-YOUR-IMPLEMENTATION starting the program
 
 You don't have to modifiy the original services file for this purpose, you can create a separate project which depends on chronicreplay and
 add your services file in this project. Or, the other way round, you add a (runtime) dependency to your custom LogLineReader implementation project.
  
-For a basic example, have a look at de.wellnerbou.chronic.logreader.CommonLogFormatLogLineReader.
+For a basic example, have a look at de.wellnerbou.chronic.logparser.CommonLogFormatLogLineParser.
 
 How to get duration comparisons in your chronicreplayer's logfiles
 ------------------------------------------------------------------
