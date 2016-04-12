@@ -3,14 +3,14 @@ package de.wellnerbou.chronic.replay;
 import com.ning.http.client.ListenableFuture;
 import com.ning.http.client.Response;
 import de.wellnerbou.chronic.logparser.LogLineParser;
+import de.wellnerbou.chronic.logsource.LogSourceReader;
+import de.wellnerbou.chronic.logsource.factory.LogSourceReaderFactory;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -21,28 +21,31 @@ public class LogReplayReader {
 
 	private LineReplayer lineReplayer;
 	private LogLineParser logLineParser;
+	private LogSourceReaderFactory logSourceReaderFactory;
 	private boolean noDelay;
 
 	private List<ListenableFuture<Response>> spawnedFutures = new ArrayList<>();
 	private boolean waitForTermination;
 
-	public LogReplayReader(final LineReplayer lineReplayer, final LogLineParser logLineParser) {
+	public LogReplayReader(final LineReplayer lineReplayer, final LogLineParser logLineParser, final LogSourceReaderFactory logSourceReaderFactory) {
 		this.lineReplayer = lineReplayer;
 		this.logLineParser = logLineParser;
+		this.logSourceReaderFactory = logSourceReaderFactory;
 	}
 
 	public void readAndReplay(final InputStream is, final DateTime from, final DateTime until) throws IOException {
 		LOG.info("Replaying from {} until {}", from.toLocalTime(), until.toLocalTime());
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
-			String line;
+		try (LogSourceReader logSourceReader = logSourceReaderFactory.create(is)) {
+			Object line;
 			LogLineData lineData;
-			if ((line = reader.readLine()) != null) {
+
+			if ((line = logSourceReader.next()) != null) {
 				lineData = logLineParser.parseLine(line);
 				if (isBeforeTimeRangeEnd(until, lineData)) {
 					Delayer delayer = new Delayer(lineData.getTime());
 					lineReplayer.replay(lineData);
 
-					while ((line = reader.readLine()) != null && isBeforeTimeRangeEnd(until, lineData)) {
+					while ((line = logSourceReader.next()) != null && isBeforeTimeRangeEnd(until, lineData)) {
 						try {
 							lineData = logLineParser.parseLine(line);
 							if (isInTimeRange(from, lineData)) {

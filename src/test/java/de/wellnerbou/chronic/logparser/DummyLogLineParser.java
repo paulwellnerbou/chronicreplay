@@ -5,7 +5,7 @@ import de.wellnerbou.chronic.replay.LogLineData;
 public class DummyLogLineParser implements LogLineParser {
 
 	@Override
-	public LogLineData parseLine(final String logLine) {
+	public LogLineData parseLine(final Object logLine) {
 		return null;
 	}
 

@@ -40,15 +40,24 @@ public class CommonLogFormatLogLineParser implements LogLineParser {
 	 * @see de.wellnerbou.chronic.logreader.LogLineParser#parseLine(java.lang.String)
 	 */
 	@Override
-	public LogLineData parseLine(final String logLine) {
+	public LogLineData parseLine(final Object logLine) {
+		final String logLineStr = castToStringOrThrowException(logLine);
 		LogLineData logLineData = new LogLineData();
-		String[] parts = logLine.split("\\s");
+		String[] parts = logLineStr.split("\\s");
 
 		logLineData.setTime(formatDate(parts[3]));
 		logLineData.setRequestMethod(parts[5].replace("\"", ""));
 		logLineData.setRequest(parts[6]);
 		logLineData.setStatusCode(parts[8]);
 		return logLineData;
+	}
+
+	protected String castToStringOrThrowException(final Object logLine) throws IllegalArgumentException {
+		if(logLine instanceof CharSequence) {
+			return logLine.toString();
+		} else {
+			throw new IllegalArgumentException("Argument is of type " + logLine.getClass().getName() + ", expected is " + CharSequence.class.getName());
+		}
 	}
 
 	@VisibleForTesting

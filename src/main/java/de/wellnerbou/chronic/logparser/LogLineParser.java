@@ -4,6 +4,6 @@ import de.wellnerbou.chronic.replay.LogLineData;
 
 public interface LogLineParser {
 
-	LogLineData parseLine(String logLine);
+	LogLineData parseLine(Object logLine);
 	String getId();
 }

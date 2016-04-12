@@ -22,9 +22,9 @@ public class SimpleLogLineParser implements LogLineParser {
 	 * @see de.wellnerbou.chronic.logreader.LogLineParser#parseLine(java.lang.String)
 	 */
 	@Override
-	public LogLineData parseLine(final String logLine) {
+	public LogLineData parseLine(final Object logLine) {
 		LogLineData logLineData = new LogLineData();
-		String[] parts = logLine.split("\\s");
+		String[] parts = logLine.toString().split("\\s");
 
 		logLineData.setTime(formatDate(parts[0]));
 		logLineData.setRequestMethod("GET");
