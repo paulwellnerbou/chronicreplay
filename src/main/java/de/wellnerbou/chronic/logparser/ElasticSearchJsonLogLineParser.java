@@ -78,6 +78,9 @@ public class ElasticSearchJsonLogLineParser implements LogLineParser {
 			case "request_time":
 				logLineData.setDuration(jsonReader.nextLong());
 				break;
+			case "host":
+				logLineData.setHost(jsonReader.nextString());
+				break;
 			case "@http":
 				jsonReader.beginObject();
 				handleAllValues(jsonReader, logLineData);
