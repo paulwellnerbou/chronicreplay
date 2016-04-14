@@ -26,7 +26,7 @@
             "remote_addr": "127.0.0.1",
             "remote_user": "-",
             "body_bytes_sent": 3193,
-            "request_time": 141546,
+            "request_time": 141546.1,
             "status": "200",
             "request": "GET /one",
             "request_method": "GET",
