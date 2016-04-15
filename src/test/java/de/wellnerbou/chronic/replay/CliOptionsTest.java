@@ -46,9 +46,9 @@ public class CliOptionsTest {
 	}
 
 	@Test
-	public void testNoDelayFlag() {
-		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--no-delay");
-		Assertions.assertThat(options.getNoDelay()).isTrue();
+	public void testDelayOption() {
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--delay=0");
+		Assertions.assertThat(options.getDelay()).isEqualTo(0);
 	}
 
 	@Test

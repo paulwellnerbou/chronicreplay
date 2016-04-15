@@ -17,13 +17,17 @@ public class Delayer {
 		this.offset = timeSimulationStarts - timeOfFirstLogLine;
 	}
 
-	public void delay(final long originalRequestTime) throws InterruptedException {
-		long delayTime = getDelayTo(originalRequestTime);
-		if (delayTime < 0) {
-			LOG.info("{} ms behind replay schedule, executing immediately, originalRequestTime: {}", delayTime, originalRequestTime);
-		} else if (delayTime > 0) {
-			LOG.info("Waiting {} ms to fire the next request, originalRequestTime: {}", delayTime, originalRequestTime);
-			Thread.sleep(delayTime);
+	public void delayTo(final long originalRequestTime) throws InterruptedException {
+		long delayMilliseconds = getDelayTo(originalRequestTime);
+		delay(delayMilliseconds);
+	}
+
+	public void delay(final long delayMilliseconds) throws InterruptedException {
+		if (delayMilliseconds < 0) {
+			LOG.info("{} ms behind replay schedule, executing immediately.", delayMilliseconds);
+		} else if (delayMilliseconds > 0) {
+			LOG.info("Waiting {} ms to fire the next request.", delayMilliseconds);
+			Thread.sleep(delayMilliseconds);
 		}
 	}
 

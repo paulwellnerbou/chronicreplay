@@ -27,8 +27,8 @@ public interface CliOptions {
 	@Option
 	boolean getFollowRedirects();
 
-	@Option(longName = "no-delay")
-	boolean getNoDelay();
+	@Option(defaultToNull = true, description = "Delay between requests in milliseconds")
+	Long getDelay();
 
 	@Option(defaultValue = "23:59:59")
 	String getUntil();

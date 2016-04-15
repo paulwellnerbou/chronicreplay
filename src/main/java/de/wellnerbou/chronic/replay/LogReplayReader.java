@@ -22,7 +22,7 @@ public class LogReplayReader {
 	private LineReplayer lineReplayer;
 	private LogLineParser logLineParser;
 	private LogSourceReaderFactory logSourceReaderFactory;
-	private boolean noDelay;
+	private Long delay;
 
 	private List<ListenableFuture<Response>> spawnedFutures = new ArrayList<>();
 	private boolean waitForTermination;
@@ -49,8 +49,10 @@ public class LogReplayReader {
 							lineData = logLineParser.parseLine(line);
 							if(lineData != null) {
 								if (isInTimeRange(from, lineData)) {
-									if (!noDelay) {
-										delayer.delay(lineData.getTime());
+									if (delay == null) {
+										delayer.delayTo(lineData.getTime());
+									} else {
+										delayer.delay(delay);
 									}
 									if (waitForTermination) {
 										spawnedFutures.add(lineReplayer.replay(lineData));
@@ -94,8 +96,8 @@ public class LogReplayReader {
 		return false;
 	}
 
-	public void setNoDelay(final boolean noDelay) {
-		this.noDelay = noDelay;
+	public void setDelay(final Long delay) {
+		this.delay = delay;
 	}
 
 	public void setWaitForTermination(final boolean waitForTermination) {

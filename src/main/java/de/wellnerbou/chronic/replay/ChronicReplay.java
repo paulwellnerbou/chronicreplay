@@ -8,7 +8,6 @@ import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider;
 import de.wellnerbou.chronic.logparser.LogLineParser;
 import de.wellnerbou.chronic.logparser.LogLineParserProvider;
-import de.wellnerbou.chronic.logsource.factory.LogFileReaderFactory;
 import de.wellnerbou.chronic.logsource.factory.LogSourceReaderFactoryProvider;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -16,13 +15,10 @@ import org.slf4j.MDC;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -81,7 +77,7 @@ public class ChronicReplay {
 		lineReplayer.setHeaders(options.getHeader());
 		lineReplayer.setFollowRedirects(options.getFollowRedirects());
 		final LogReplayReader logReplayReader = new LogReplayReader(lineReplayer, logLineParser, new LogSourceReaderFactoryProvider().getImplementation(options.getLogreader()));
-		logReplayReader.setNoDelay(options.getNoDelay());
+		logReplayReader.setDelay(options.getDelay());
 		logReplayReader.setWaitForTermination(options.getWaitForTermination());
 		logReplayReader.readAndReplay(inputStream, convertToDateTime(options.getFrom()), convertToDateTime(options.getUntil()));
 		close(asyncHttpClient);
