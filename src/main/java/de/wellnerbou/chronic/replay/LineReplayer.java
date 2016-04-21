@@ -34,13 +34,15 @@ public class LineReplayer {
     public ListenableFuture<Response> replay(final LogLineData logLineData) throws IOException {
         BoundRequestBuilder req = asyncHttpClient.prepareGet(host + logLineData.getRequest());
         req.setFollowRedirects(followRedirects);
+		String usedHostHeader = null;
         if (logLineData.getHost() == null) {
             if (hostHeader != null) {
-                req = req.setVirtualHost(hostHeader);
+				usedHostHeader = hostHeader;
             }
         } else {
-            req = req.setVirtualHost(logLineData.getHost());
+			usedHostHeader = logLineData.getHost();
         }
+		req = req.setVirtualHost(usedHostHeader);
 
         for (final Header header : headers) {
             req = req.setHeader(header.getName(), header.getValue());
@@ -49,7 +51,7 @@ public class LineReplayer {
         if (logLineData.getUserAgent() != null) {
             req.setHeader("user-agent", logLineData.getUserAgent());
         }
-        LOG.info("Executing request {}: {} with host headers {}", req, host + logLineData.getRequest(), hostHeader);
+        LOG.info("Executing request {}: {} with host headers {}", req, host + logLineData.getRequest(), usedHostHeader);
         return req.execute(new LoggingAsyncCompletionHandler(logLineData, resultDataLogger));
     }
 
