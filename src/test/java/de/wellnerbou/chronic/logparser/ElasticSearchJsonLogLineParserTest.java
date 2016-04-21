@@ -50,9 +50,9 @@ public class ElasticSearchJsonLogLineParserTest {
 		expected.setDuration(0);
 		expected.setStatusCode("304");
 		expected.setRequestMethod("GET");
-		expected.setRequest("/ppmedia/aktuell/technik-motor/sennheiserorpheu_27112015-1735/1.3940028/article_top_teaser/der-teuerste-kopfhoerer-der.jpg");
+		expected.setRequest("/one");
 		expected.setReferrer("-");
-		expected.setHost("media0.beta.testfaz.net");
+		expected.setHost("host1.example.com");
 		expected.setUserAgent("Mozilla/4.0 (compatible;)");
 		Assertions.assertThat(lineData).isEqualsToByComparingFields(expected);
 	}
