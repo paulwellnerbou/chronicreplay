@@ -8,8 +8,6 @@ import org.junit.Test;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-import static org.junit.Assert.*;
-
 /**
  * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
@@ -39,7 +37,7 @@ public class ElasticSearchJsonLogLineParserTest {
 
 	@Test
 	public void parseLine2() throws Exception {
-		final String resourceUrlStr = "/test.json";
+		final String resourceUrlStr = "/simplified.json";
 		final InputStream is = this.getClass().getResourceAsStream(resourceUrlStr);
 
 		final JsonReader jsonReader = new JsonReader(new InputStreamReader(is));

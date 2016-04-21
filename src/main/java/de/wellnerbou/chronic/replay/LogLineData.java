@@ -1,5 +1,7 @@
 package de.wellnerbou.chronic.replay;
 
+import org.joda.time.DateTime;
+
 public class LogLineData {
 	private long time;
 	private String requestMethod;
@@ -68,5 +70,14 @@ public class LogLineData {
 
 	public String getHost() {
 		return host;
+	}
+
+	@Override
+	public String toString() {
+		return "LogLineData{" +
+				"requestMethod='" + requestMethod + '\'' +
+				", request='" + request + '\'' +
+				", time=" + new DateTime(time) +
+				'}';
 	}
 }

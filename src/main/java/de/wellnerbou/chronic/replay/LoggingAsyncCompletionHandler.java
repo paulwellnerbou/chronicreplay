@@ -34,7 +34,7 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 
     public void onThrowable(Throwable t) {
         long duration = System.currentTimeMillis() - startTime;
-        LOG.info("Request {} failed after {}ms", originalData.getRequest(), duration, t);
+        LOG.info("Request {} failed after {} ms", originalData.getRequest(), duration, t);
         super.onThrowable(t);
     }
 

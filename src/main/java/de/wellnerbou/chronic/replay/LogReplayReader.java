@@ -41,18 +41,20 @@ public class LogReplayReader {
 
 			if ((line = logSourceReader.next()) != null && (lineData = logLineParser.parseLine(line)) != null) {
 				if (isBeforeTimeRangeEnd(until, lineData)) {
-					Delayer delayer = new Delayer(lineData.getTime());
-					lineReplayer.replay(lineData);
+					Delayer delayer = new Delayer(calculateStarttimeRelativeToLogs(from, lineData));
+					if(isInTimeRange(from, until, lineData)) {
+						lineReplayer.replay(lineData);
+					}
 
 					while ((line = logSourceReader.next()) != null && lineData != null && isBeforeTimeRangeEnd(until, lineData)) {
 						try {
 							lineData = logLineParser.parseLine(line);
 							if(lineData != null) {
-								if (isInTimeRange(from, lineData)) {
+								if (isInTimeRange(from, until, lineData)) {
 									if (delay == null) {
 										delayer.delayTo(lineData.getTime());
 									} else {
-										delayer.delay(delay);
+										delayer.delay(delay, lineData.getTime());
 									}
 									if (waitForTermination) {
 										spawnedFutures.add(lineReplayer.replay(lineData));
@@ -78,21 +80,31 @@ public class LogReplayReader {
 		}
 	}
 
-	private boolean isInTimeRange(final DateTime from, final LogLineData lineData) {
+	long calculateStarttimeRelativeToLogs(final DateTime from, final LogLineData firstLineData) {
+		final long dateOfFirstLogLine = firstLineData.getTime();
+		if(from.toLocalTime().isAfter(new DateTime(dateOfFirstLogLine).toLocalTime())) {
+			return new DateTime(dateOfFirstLogLine).withMillisOfDay(from.getMillisOfDay()).getMillis();
+		} else {
+			return firstLineData.getTime();
+		}
+	}
+
+	boolean isInTimeRange(final DateTime from, final DateTime until, final LogLineData lineData) {
 		final DateTime time = new DateTime(lineData.getTime());
 		if (from.toLocalTime().isAfter(time.toLocalTime())) {
 			LOG.info("Skipping replay, {} before {}", time.toLocalTime(), from.toLocalTime());
 			return false;
 		}
-		return true;
+		return isBeforeTimeRangeEnd(until, lineData);
 	}
 
 	private boolean isBeforeTimeRangeEnd(final DateTime until, final LogLineData lineData) {
-		final DateTime time = new DateTime(lineData.getTime());
-		if (time.toLocalTime().isBefore(until.toLocalTime())) {
+		final DateTime logLineTime = new DateTime(lineData.getTime());
+		if (logLineTime.toLocalTime().isBefore(until.toLocalTime())) {
+			LOG.info("{} before {}", logLineTime.toLocalTime(), until.toLocalTime());
 			return true;
 		}
-		LOG.info("Canceling replay, {} not before {}", time.toLocalTime(), until.toLocalTime());
+		LOG.info("Canceling replay, {} not before {}", logLineTime.toLocalTime(), until.toLocalTime());
 		return false;
 	}
 
