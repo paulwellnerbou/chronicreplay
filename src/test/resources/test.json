@@ -1,0 +1,34 @@
+{
+  "hits": {
+    "hits": [
+      {
+        "_source": {
+          "@timestamp": "2016-04-11T07:00:00+02:00",
+          "@daemon": "nginx",
+          "@http": {
+            "status": "304",
+            "http_user_agent": "Mozilla/4.0 (compatible;)",
+            "request": "GET /one",
+            "host": "host1.example.com",
+            "request_method": "GET",
+            "http_referrer": "-"
+          }
+        }
+      },
+      {
+        "_source": {
+          "@timestamp": "2016-04-11T07:00:10+02:00",
+          "@daemon": "nginx",
+          "@http": {
+            "status": "304",
+            "http_user_agent": "Mozilla/4.0 (compatible;)",
+            "request": "GET /two",
+            "host": "host2.example.com",
+            "request_method": "GET",
+            "http_referrer": "-"
+          }
+        }
+      }
+    ]
+  }
+}

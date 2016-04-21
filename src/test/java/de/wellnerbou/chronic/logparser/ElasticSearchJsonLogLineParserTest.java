@@ -36,4 +36,24 @@ public class ElasticSearchJsonLogLineParserTest {
 		expected.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36");
 		Assertions.assertThat(lineData).isEqualsToByComparingFields(expected);
 	}
+
+	@Test
+	public void parseLine2() throws Exception {
+		final String resourceUrlStr = "/test.json";
+		final InputStream is = this.getClass().getResourceAsStream(resourceUrlStr);
+
+		final JsonReader jsonReader = new JsonReader(new InputStreamReader(is));
+		final LogLineData lineData = elasticSearchJsonLogLineParser.parseLine(jsonReader);
+
+		final LogLineData expected = new LogLineData();
+		expected.setTime(1460350800000L);
+		expected.setDuration(0);
+		expected.setStatusCode("304");
+		expected.setRequestMethod("GET");
+		expected.setRequest("/ppmedia/aktuell/technik-motor/sennheiserorpheu_27112015-1735/1.3940028/article_top_teaser/der-teuerste-kopfhoerer-der.jpg");
+		expected.setReferrer("-");
+		expected.setHost("media0.beta.testfaz.net");
+		expected.setUserAgent("Mozilla/4.0 (compatible;)");
+		Assertions.assertThat(lineData).isEqualsToByComparingFields(expected);
+	}
 }

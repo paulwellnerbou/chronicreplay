@@ -36,6 +36,9 @@ public class Delayer {
 	}
 
 	protected long getDelayTo(final long originalRequestTime, final long actualTimeNow) {
+		LOG.info("Offset: {}", new java.util.Date(offset));
+		LOG.info("originalTime: {}", new java.util.Date(originalRequestTime));
+		LOG.info("actualTimeNow: {}", new java.util.Date(actualTimeNow));
 		return offset - (actualTimeNow - originalRequestTime);
 	}
 }

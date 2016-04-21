@@ -22,4 +22,13 @@ public class ChronicReplayIT {
 				"--logparser=elasticsearch" };
 		ChronicReplay.main(args);
 	}
+
+	@Test
+	public void testRunWithOtherLocalJsonFile() throws IOException {
+		String[] args = new String[] { "--host=http://localhost",
+				"--logfile=src/test/resources/test.json",
+				"--logreader=jsonreader",
+				"--logparser=elasticsearch" };
+		ChronicReplay.main(args);
+	}
 }
