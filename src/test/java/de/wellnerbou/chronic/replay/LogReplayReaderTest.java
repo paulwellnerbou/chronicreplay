@@ -27,7 +27,7 @@ public class LogReplayReaderTest {
 		logLineData.setTime(firstLogfileTime.getMillis());
 
 		final long result = logReplayReader.calculateStarttimeRelativeToLogs(fromOptionGiven, logLineData);
-		Assertions.assertThat(result).isEqualTo(fromOptionGiven.getMillis());
+		Assertions.assertThat(new DateTime(result).getMillisOfDay()).isEqualTo(fromOptionGiven.getMillisOfDay());
 	}
 
 	@Test
