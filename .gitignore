@@ -9,6 +9,6 @@ src/test/resources/faz-private-data
 .classpath
 .project
 *.iml
-*.log
+#*.log
 *.csv
 *.png

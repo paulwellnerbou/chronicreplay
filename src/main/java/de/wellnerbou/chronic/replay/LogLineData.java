@@ -1,5 +1,7 @@
 package de.wellnerbou.chronic.replay;
 
+import org.joda.time.DateTime;
+
 public class LogLineData {
 	private long time;
 	private String requestMethod;
@@ -7,6 +9,8 @@ public class LogLineData {
 	private long duration;
 	private String statusCode;
 	private String userAgent;
+	private String referrer;
+	private String host;
 
 	public long getTime() {
 		return time;
@@ -54,5 +58,26 @@ public class LogLineData {
 
 	public void setUserAgent(String userAgent) {
 		this.userAgent = userAgent;
+	}
+
+	public void setReferrer(final String referrer) {
+		this.referrer = referrer;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	@Override
+	public String toString() {
+		return "LogLineData{" +
+				"requestMethod='" + requestMethod + '\'' +
+				", request='" + request + '\'' +
+				", time=" + new DateTime(time) +
+				'}';
 	}
 }

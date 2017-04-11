@@ -1,10 +1,10 @@
-package de.wellnerbou.chronic.logreader.custom;
+package de.wellnerbou.chronic.logparser.custom;
 
-import de.wellnerbou.chronic.logreader.CombinedWithDurationLogLineReader;
+import de.wellnerbou.chronic.logparser.CombinedWithDurationLogLineParser;
 import de.wellnerbou.chronic.replay.LogLineData;
 
 /**
- * Implementation of LogLineReader supporting apache log files written in following format, defined in
+ * Implementation of LogLineParser supporting apache log files written in following format, defined in
  * mod_log_config.conf:
  *
  * <pre>
@@ -15,21 +15,22 @@ import de.wellnerbou.chronic.replay.LogLineData;
  *
  * @author Paul Wellner Bou <paul@wellnerbou.de>
  */
-public class FazDefaultLogLineReader extends CombinedWithDurationLogLineReader {
+public class FazDefaultLogLineParser extends CombinedWithDurationLogLineParser {
 
 	/* (non-Javadoc)
-	 * @see de.wellnerbou.chronic.logreader.LogLineReader#parseLine(java.lang.String)
+	 * @see de.wellnerbou.chronic.logreader.LogLineParser#parseLine(java.lang.String)
 	 */
 	@Override
-	public LogLineData parseLine(final String logLine) {
+	public LogLineData parseLine(final Object logLine) {
+		final String logLineStr = castToStringOrThrowException(logLine);
 		LogLineData logLineData = new LogLineData();
-		String[] parts = logLine.split("\\s");
+		String[] parts = logLineStr.split("\\s");
 
 		logLineData.setTime(formatDate(parts[3]));
 		logLineData.setRequestMethod(parts[5].replace("\"", ""));
 		logLineData.setRequest(parts[6]);
 		logLineData.setStatusCode(parts[8]);
-		logLineData.setDuration(extractDuration(logLine));
+		logLineData.setDuration(extractDuration(logLineStr));
 		logLineData.setUserAgent(getUserAgent(parts));
 		return logLineData;
 	}

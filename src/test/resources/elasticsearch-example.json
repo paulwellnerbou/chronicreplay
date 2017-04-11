@@ -1,0 +1,65 @@
+{
+  "took": 279,
+  "timed_out": false,
+  "_shards": {
+    "total": 5,
+    "successful": 5,
+    "failed": 0
+  },
+  "hits": {
+    "total": 300390,
+    "max_score": 3.6800666,
+    "hits": [
+      {
+        "_index": "http-2016.04.12",
+        "_type": "events",
+        "_id": "AVQIWklXOh_1GtpY-Cms",
+        "_score": 3.6800666,
+        "_source": {
+          "@timestamp": "2016-04-12T04:43:34+0200",
+          "@daemon": "apache",
+          "@http": {
+            "server_name": "server.name.example.com",
+            "hostname": "machine-1",
+            "host": "example.com",
+            "client_addr": "127.0.0.1",
+            "remote_addr": "127.0.0.1",
+            "remote_user": "-",
+            "body_bytes_sent": 3193,
+            "request_time": 141546.1,
+            "status": "200",
+            "request": "GET /one",
+            "request_method": "GET",
+            "http_referrer": "http://referrer.example.com/1",
+            "http_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
+          }
+        }
+      },
+      {
+        "_index": "http-2016.04.12",
+        "_type": "events",
+        "_id": "AVQIWkvCOh_1GtpY-Cvu",
+        "_score": 3.6800666,
+        "_source": {
+          "@timestamp": "2016-04-12T04:43:35+0200",
+          "@daemon": "apache",
+          "@http": {
+            "server_name": "server.name.example.com",
+            "hostname": "machine-1",
+            "host": "example.com",
+            "client_addr": "127.0.0.1",
+            "remote_addr": "127.0.0.1",
+            "remote_user": "-",
+            "body_bytes_sent": 3304,
+            "request_time": 24901,
+            "status": "200",
+            "request": "GET /two",
+            "request_method": "GET",
+            "http_referrer": "http://referrer.example.com/2",
+            "http_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
+          }
+        }
+      }
+    ]
+  }
+}

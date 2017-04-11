@@ -22,13 +22,13 @@ public interface CliOptions {
 	List<String> getHeader();
 
 	@Option
-	String getLogreader();
+	String getLogparser();
 
 	@Option
 	boolean getFollowRedirects();
 
-	@Option(longName="no-delay")
-	boolean getNoDelay();
+	@Option(defaultToNull = true, description = "Delay between requests in milliseconds")
+	Long getDelay();
 
 	@Option(defaultValue = "23:59:59")
 	String getUntil();
@@ -36,6 +36,9 @@ public interface CliOptions {
 	@Option(defaultValue = "00:00:00")
 	String getFrom();
 
-	@Option(longName="wait-for-termination")
+	@Option(longName = "wait-for-termination")
 	boolean getWaitForTermination();
+
+	@Option(longName = "logreader", defaultValue = "file")
+	String getLogreader();
 }

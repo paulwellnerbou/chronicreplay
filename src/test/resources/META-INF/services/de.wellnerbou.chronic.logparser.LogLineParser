@@ -1,0 +1,2 @@
+de.wellnerbou.chronic.logparser.DummyLogLineParser
+de.wellnerbou.chronic.logparser.CombinedLogFormatLogLineParser

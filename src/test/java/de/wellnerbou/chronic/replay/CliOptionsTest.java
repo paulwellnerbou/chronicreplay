@@ -26,33 +26,40 @@ public class CliOptionsTest {
 
 	@Test
 	public void testOptionalOptions() {
-		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "");
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "");
 		Assertions.assertThat(options.getFollowRedirects()).isFalse();
 		Assertions.assertThat(options.getHeader()).isEmpty();
 		Assertions.assertThat(options.getWaitForTermination()).isFalse();
+		Assertions.assertThat(options.getLogreader()).isEqualTo("file");
 	}
 
 	@Test
 	public void testFollowRedirectsFlag() {
-		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--followRedirects");
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--followRedirects");
 		Assertions.assertThat(options.getFollowRedirects()).isTrue();
 	}
 
 	@Test
 	public void testWaitForTerminationFlag() {
-		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--wait-for-termination");
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--wait-for-termination");
 		Assertions.assertThat(options.getWaitForTermination()).isTrue();
 	}
 
 	@Test
-	public void testNoDelayFlag() {
-		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--no-delay");
-		Assertions.assertThat(options.getNoDelay()).isTrue();
+	public void testDelayOption() {
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--delay=0");
+		Assertions.assertThat(options.getDelay()).isEqualTo(0);
+	}
+
+	@Test
+	public void testLogReaderOption() {
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--logreader", "url");
+		Assertions.assertThat(options.getLogreader()).isEqualTo("url");
 	}
 
 	@Test
 	public void testHeaderList() {
-		final CliOptions options = cli.parseArguments("--logreader", "simple", "--host", "http://localhost", "--logfile", "", "--header", "Accept: nothing", "--header", "Host: example.com");
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--header", "Accept: nothing", "--header", "Host: example.com");
 		Assertions.assertThat(options.getHeader()).hasSize(2);
 	}
 }

@@ -6,16 +6,19 @@ import com.lexicalscope.jewel.cli.CliFactory;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider;
-import de.wellnerbou.chronic.logreader.LogLineReader;
-import de.wellnerbou.chronic.logreader.LogLineReaderProvider;
+import de.wellnerbou.chronic.logparser.LogLineParser;
+import de.wellnerbou.chronic.logparser.LogLineParserProvider;
+import de.wellnerbou.chronic.logsource.factory.LogSourceReaderFactoryProvider;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.slf4j.MDC;
 
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -50,23 +53,31 @@ public class ChronicReplay {
 		}
 	}
 
-	private InputStream getInputStreamFromGivenFile(final String file) throws FileNotFoundException {
-		return new FileInputStream(file);
+	private InputStream getInputStreamFromGivenFile(final String file) throws IOException {
+		if(new File(file).exists()) {
+			return new FileInputStream(file);
+		} else {
+			try {
+				return new URI(file).toURL().openStream();
+			} catch (URISyntaxException e) {
+				throw new RuntimeException(e);
+			}
+		}
 	}
 
 	public void replay(final InputStream inputStream, final CliOptions options) throws IOException {
-		AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder().build();
-		AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
-		LogLineReaderProvider logLineReaderProvider = new LogLineReaderProvider();
-		LogLineReader logLineReader = logLineReaderProvider.getLogLineReader(options.getLogreader());
+		final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder().build();
+		final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
+		final LogLineParserProvider logLineParserProvider = new LogLineParserProvider();
+		final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
 		final ResultDataLogger resultDataLogger = new ResultDataLogger();
 		resultDataLogger.logColumnTitles();
-		LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, resultDataLogger);
+		final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, resultDataLogger);
 		lineReplayer.setHostHeader(options.getHostheader());
 		lineReplayer.setHeaders(options.getHeader());
 		lineReplayer.setFollowRedirects(options.getFollowRedirects());
-		LogReplayReader logReplayReader = new LogReplayReader(lineReplayer, logLineReader);
-		logReplayReader.setNoDelay(options.getNoDelay());
+		final LogReplayReader logReplayReader = new LogReplayReader(lineReplayer, logLineParser, new LogSourceReaderFactoryProvider().getImplementation(options.getLogreader()));
+		logReplayReader.setDelay(options.getDelay());
 		logReplayReader.setWaitForTermination(options.getWaitForTermination());
 		logReplayReader.readAndReplay(inputStream, convertToDateTime(options.getFrom()), convertToDateTime(options.getUntil()));
 		close(asyncHttpClient);

@@ -1,6 +1,7 @@
 package de.wellnerbou.chronic.replay;
 
 import com.ning.http.client.Response;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +42,8 @@ public class ResultDataLogger {
 
 	private void logResultDataLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime, final String uriString, final Logger logger) {
 		logger.debug("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}",
-				startTime / 1000,
-				originalData.getTime() / 1000,
+				new DateTime(startTime),
+				new DateTime(originalData.getTime()),
 				response.getStatusCode(), originalData.getStatusCode(),
 				sameStatus, duration,
 				originalData.getDuration(),
