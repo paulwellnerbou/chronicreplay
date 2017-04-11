@@ -9,7 +9,7 @@ How to run
 Download the [latest release](https://github.com/paulwellnerbou/chronicreplay/releases/latest), unzip it and run it:
 
 ```
-wget https://github.com/paulwellnerbou/chronicreplay/releases/download/v1.5.0-rc1/chronicreplay-1.5.0-rc1.zip
+wget https://github.com/paulwellnerbou/chronicreplay/releases/download/v1.5.0/chronicreplay-1.5.0.zip
 unzip chronicreplay*.zip
 ./chronicreplay-*/bin/chronicreplay --host=host.to.replay.against --logfile=/path/to/your/logfile --logreader=combined
 ```
