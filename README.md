@@ -11,7 +11,7 @@ Download the [latest release](https://github.com/paulwellnerbou/chronicreplay/re
 ```
 wget https://github.com/paulwellnerbou/chronicreplay/releases/download/v1.5.0/chronicreplay-1.5.0.zip
 unzip chronicreplay*.zip
-./chronicreplay-*/bin/chronicreplay --host=host.to.replay.against --logfile=/path/to/your/logfile --logreader=combined
+./chronicreplay-*/bin/chronicreplay --host=host.to.replay.against --logfile=/path/to/your/logfile --logparser=combined
 ```
 
 Where "combined" is the name of the logfile reader exptecting Apache's combined log format
@@ -26,7 +26,7 @@ How to build
 How to run from source directory with gradle
 ---------------------------------------------
 
-	./gradlew run -Pargs='--host=http://localhost --logfile=src/test/resources/combined-log-example.log --logreader=combined'
+	./gradlew run -Pargs='--host=http://localhost --logfile=src/test/resources/combined-log-example.log --logparser=combined'
 
 How to build a binary distribution
 ----------------------------------
@@ -61,7 +61,7 @@ How to get duration comparisons in your chronicreplayer's logfiles
 Apache does not log the duration of the requests in the default log formats. To achieve this, you have to add '%D' to your LogFormat.
 See (http://httpd.apache.org/docs/current/mod/mod_log_config.html) for more information of customizing your LogFormat.
 
-To parse the microseconds you will get then, you can use the code in de.wellnerbou.chronic.logreader.CombinedWithDurationLogLineReader or you
+To parse the microseconds you will get then, you can use the code in `CombinedWithDurationLogLineParser` or you
 can extend from this class, overwriting the extractDuration method or/and the parseLine method.
 
 Plotting the results with gnuplot
