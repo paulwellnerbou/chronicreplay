@@ -1,6 +1,6 @@
 package de.wellnerbou.chronic.logparser;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class LogLineParserProviderTest {
 
-	LogLineParserProvider logLineParserProvider = new LogLineParserProvider();
+	LogLineParserProvider logLineParserProvider = new LogLineParserProvider(null);
 
 	@Test
 	public void testGetAllLogLineReader_noImplFound() {

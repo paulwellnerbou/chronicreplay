@@ -12,3 +12,4 @@ src/test/resources/*private*
 #*.log
 *.csv
 *.png
+out

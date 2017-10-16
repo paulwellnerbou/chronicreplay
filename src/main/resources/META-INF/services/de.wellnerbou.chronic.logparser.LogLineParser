@@ -4,3 +4,4 @@ de.wellnerbou.chronic.logparser.CombinedWithDurationLogLineParser
 de.wellnerbou.chronic.logparser.custom.FazDefaultLogLineParser
 de.wellnerbou.chronic.logparser.custom.SimpleLogLineParser
 de.wellnerbou.chronic.logparser.ElasticSearchJsonLogLineParser
+de.wellnerbou.chronic.logparser.GrokLogFormatLogLineParser

@@ -1,9 +1,8 @@
 package de.wellnerbou.chronic.replay;
 
-import org.joda.time.DateTime;
-
 public class LogLineData {
 	private long time;
+	private String clientip;
 	private String requestMethod;
 	private String request;
 	private long duration;
@@ -72,12 +71,26 @@ public class LogLineData {
 		return host;
 	}
 
+	public String getClientip() {
+		return clientip;
+	}
+
+	public void setClientip(final String clientip) {
+		this.clientip = clientip;
+	}
+
 	@Override
 	public String toString() {
 		return "LogLineData{" +
-				"requestMethod='" + requestMethod + '\'' +
+				"time=" + time +
+				", clientip='" + clientip + '\'' +
+				", requestMethod='" + requestMethod + '\'' +
 				", request='" + request + '\'' +
-				", time=" + new DateTime(time) +
+				", duration=" + duration +
+				", statusCode='" + statusCode + '\'' +
+				", userAgent='" + userAgent + '\'' +
+				", referrer='" + referrer + '\'' +
+				", host='" + host + '\'' +
 				'}';
 	}
 }

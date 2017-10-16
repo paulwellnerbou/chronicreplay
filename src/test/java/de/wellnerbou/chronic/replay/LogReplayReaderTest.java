@@ -1,6 +1,6 @@
 package de.wellnerbou.chronic.replay;
 
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.junit.Test;
 

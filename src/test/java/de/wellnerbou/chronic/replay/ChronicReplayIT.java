@@ -7,10 +7,24 @@ import java.io.IOException;
 public class ChronicReplayIT {
 
 	@Test
+	public void testMainOptionParsing() throws IOException {
+		String[] args = new String[] {};
+		ChronicReplay.main(args);
+	}
+
+	@Test
 	public void testRun() throws IOException {
 		String[] args = new String[] { "--host=http://localhost",
 				"--logfile=src/test/resources/combined-log-example.log",
 				"--logparser=combined" };
+		ChronicReplay.main(args);
+	}
+
+	@Test
+	public void testRun_grok() throws IOException {
+		String[] args = new String[] { "--host=http://localhost",
+				"--logfile=src/test/resources/combined-log-example.log",
+				"--logparser=grok", "--grokpattern=%{COMBINEDAPACHELOG}" };
 		ChronicReplay.main(args);
 	}
 

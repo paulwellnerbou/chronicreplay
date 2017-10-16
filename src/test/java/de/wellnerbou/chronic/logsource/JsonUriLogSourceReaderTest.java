@@ -1,6 +1,6 @@
 package de.wellnerbou.chronic.logsource;
 
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.io.IOException;

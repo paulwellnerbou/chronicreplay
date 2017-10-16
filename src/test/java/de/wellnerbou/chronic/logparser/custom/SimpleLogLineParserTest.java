@@ -1,7 +1,8 @@
 package de.wellnerbou.chronic.logparser.custom;
 
 import de.wellnerbou.chronic.replay.LogLineData;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 /**
