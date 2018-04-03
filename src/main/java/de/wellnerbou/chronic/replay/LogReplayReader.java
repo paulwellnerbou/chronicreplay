@@ -101,10 +101,10 @@ public class LogReplayReader {
 	private boolean isBeforeTimeRangeEnd(final DateTime until, final LogLineData lineData) {
 		final DateTime logLineTime = new DateTime(lineData.getTime());
 		if (logLineTime.toLocalTime().isBefore(until.toLocalTime())) {
-			LOG.info("{} before {}", logLineTime.toLocalTime(), until.toLocalTime());
+			LOG.trace("{} before {}", logLineTime.toLocalTime(), until.toLocalTime());
 			return true;
 		}
-		LOG.info("Canceling replay, {} not before {}", logLineTime.toLocalTime(), until.toLocalTime());
+		LOG.debug("Canceling replay, {} not before {}", logLineTime.toLocalTime(), until.toLocalTime());
 		return false;
 	}
 

@@ -1,7 +1,5 @@
 package de.wellnerbou.chronic.replay;
 
-import com.google.common.base.Function;
-import com.google.common.collect.FluentIterable;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.ListenableFuture;
@@ -12,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class LineReplayer {
 
@@ -64,12 +63,9 @@ public class LineReplayer {
     }
 
     public void setHeaders(final List<String> headers) {
-        this.headers = FluentIterable.from(headers).transform(new Function<String, Header>() {
-            @Override
-            public Header apply(final String input) {
-                final String[] parts = input.split(":");
-                return new Header(parts[0], parts.length > 1 ? parts[1] : "");
-            }
-        }).toList();
+        this.headers = headers.stream().map(input -> {
+            final String[] parts = input.split(":");
+            return new Header(parts[0], parts.length > 1 ? parts[1] : "");
+        }).collect(Collectors.toList());
     }
 }

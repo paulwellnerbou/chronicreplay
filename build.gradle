@@ -1,6 +1,11 @@
+plugins {
+	id "org.sonarqube" version "2.5"
+}
+
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'application'
+apply plugin: 'jacoco'
 
 group = 'de.wellnerbou'
 version = '1.6.0-SNAPSHOT'
@@ -25,6 +30,7 @@ test {
 repositories {
 	mavenCentral()
 	mavenLocal()
+	jcenter()
 }
 
 dependencies {
@@ -36,7 +42,7 @@ dependencies {
     compile group: 'org.glassfish.grizzly', name: 'grizzly-http', version:'2.3.11'
     compile group: 'org.glassfish.grizzly', name: 'grizzly-websockets', version:'2.3.11'
     compile 'com.google.code.gson:gson:2.6.2'
-	compile group: 'io.thekraken', name: 'grok', version: '0.1.6-SNAPSHOT'
+	compile group: 'de.wellnerbou', name: 'java-grok', version: '0.1.7'
 	
 	testCompile group: 'junit', name: 'junit', version:'4.+'
     testCompile 'org.assertj:assertj-core:3.8.0'

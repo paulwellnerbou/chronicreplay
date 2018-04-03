@@ -2,8 +2,11 @@ package de.wellnerbou.chronic.logparser;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 import io.thekraken.grok.api.Grok;
+import io.thekraken.grok.api.GrokCompiler;
 import io.thekraken.grok.api.Match;
 import io.thekraken.grok.api.exception.GrokException;
+
+import java.util.Map;
 
 public class GrokLogFormatLogLineParser implements LogLineParser {
 
@@ -25,11 +28,12 @@ public class GrokLogFormatLogLineParser implements LogLineParser {
 	}
 
 	private LogLineData parseLineWithGrok(final String logLine) throws GrokException {
-		Grok grok = Grok.create();
-		grok.compile(pattern);
+		GrokCompiler grokCompiler = GrokCompiler.newInstance();
+		grokCompiler.registerDefaultPatterns();
+		final Grok grok = grokCompiler.compile(pattern);
 		Match match = grok.match(logLine);
-		match.captures();
-		return grokResultMapper.map(match.toMap());
+		final Map<String, Object> capture = match.capture();
+		return grokResultMapper.map(capture);
 	}
 
 	@Override

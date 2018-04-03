@@ -20,7 +20,7 @@ public class GrokResultMapper {
 		logLineData.setTime(toTimestamp(String.valueOf(map.get("timestamp"))));
 		logLineData.setStatusCode(String.valueOf(map.get("response")));
 		if(map.containsKey("duration")) {
-			logLineData.setDuration(Long.parseLong(String.valueOf(map.get("duration"))));
+			logLineData.setDuration(formatDuration(String.valueOf(map.get("duration"))));
 		}
 		logLineData.setReferrer(String.valueOf(map.get("referrer")));
 		logLineData.setClientip(String.valueOf(map.get("clientip")));
@@ -30,10 +30,21 @@ public class GrokResultMapper {
 
 	private long toTimestamp(final String timestampstring) {
 		final TemporalAccessor temporalAccessor = dateTimeFormatter.parse(timestampstring);
-		return getTimezoneUnawareUnixTimestamp(temporalAccessor);
+		return getTimezoneUnawareUnixTimestampInMilliseconds(temporalAccessor);
 	}
 
-	private long getTimezoneUnawareUnixTimestamp(final TemporalAccessor temporalAccessor) {
-		return temporalAccessor.getLong(ChronoField.INSTANT_SECONDS) + temporalAccessor.getLong(ChronoField.OFFSET_SECONDS);
+	private long getTimezoneUnawareUnixTimestampInMilliseconds(final TemporalAccessor temporalAccessor) {
+		return (temporalAccessor.getLong(ChronoField.INSTANT_SECONDS) + temporalAccessor.getLong(ChronoField.OFFSET_SECONDS)) * 1000;
+	}
+
+	/**
+	 * %D is the duration in microseconds
+	 *
+	 * @param s
+	 * @return the duration in milliseconds
+	 */
+	private long formatDuration(final String s) {
+		Double dur = Long.parseLong(s) / 1000D;
+		return Math.round(dur);
 	}
 }
