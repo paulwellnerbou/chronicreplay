@@ -1,6 +1,6 @@
 package de.wellnerbou.chronic.replay;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;

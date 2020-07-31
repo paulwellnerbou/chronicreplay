@@ -2,7 +2,7 @@ package de.wellnerbou.chronic.logparser;
 
 import com.google.gson.stream.JsonReader;
 import de.wellnerbou.chronic.replay.LogLineData;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 import java.io.InputStream;
@@ -16,7 +16,7 @@ public class ElasticSearchJsonLogLineParserTest {
 	final ElasticSearchJsonLogLineParser elasticSearchJsonLogLineParser = new ElasticSearchJsonLogLineParser();
 
 	@Test
-	public void parseLine() throws Exception {
+	public void parseLine() {
 		final String resourceUrlStr = "/elasticsearch-example.json";
 		final InputStream is = this.getClass().getResourceAsStream(resourceUrlStr);
 
@@ -32,11 +32,11 @@ public class ElasticSearchJsonLogLineParserTest {
 		expected.setHost("example.com");
 		expected.setReferrer("http://referrer.example.com/1");
 		expected.setUserAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36");
-		Assertions.assertThat(lineData).isEqualsToByComparingFields(expected);
+		Assertions.assertThat(lineData).isEqualToComparingFieldByField(expected);
 	}
 
 	@Test
-	public void parseLine2() throws Exception {
+	public void parseLine2() {
 		final String resourceUrlStr = "/simplified.json";
 		final InputStream is = this.getClass().getResourceAsStream(resourceUrlStr);
 
@@ -52,6 +52,6 @@ public class ElasticSearchJsonLogLineParserTest {
 		expected.setReferrer("-");
 		expected.setHost("host1.example.com");
 		expected.setUserAgent("Mozilla/4.0 (compatible;)");
-		Assertions.assertThat(lineData).isEqualsToByComparingFields(expected);
+		Assertions.assertThat(lineData).isEqualToComparingFieldByField(expected);
 	}
 }

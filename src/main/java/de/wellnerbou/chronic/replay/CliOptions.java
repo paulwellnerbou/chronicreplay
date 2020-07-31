@@ -4,9 +4,6 @@ import com.lexicalscope.jewel.cli.Option;
 
 import java.util.List;
 
-/**
- * @author Paul Wellner Bou <paul@wellnerbou.de>
- */
 public interface CliOptions {
 
 	@Option
@@ -41,4 +38,7 @@ public interface CliOptions {
 
 	@Option(longName = "logreader", defaultValue = "file")
 	String getLogreader();
+
+	@Option(longName = "grokpattern", defaultToNull = true, description = "Grok pattern to parse log lines, used only for --logparser=grok")
+	String getGrokPattern();
 }

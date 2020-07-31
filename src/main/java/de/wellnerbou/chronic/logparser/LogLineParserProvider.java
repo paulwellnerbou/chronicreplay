@@ -1,16 +1,23 @@
 package de.wellnerbou.chronic.logparser;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ServiceLoader;
-
-import de.wellnerbou.chronic.plugins.NoImplementationFoundException;
 import de.wellnerbou.chronic.plugins.ServiceLoaderImplementationProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LogLineParserProvider extends ServiceLoaderImplementationProvider<LogLineParser> {
+
+	private String parserPattern;
+
+	public LogLineParserProvider(String grokPattern) {
+		this.parserPattern = grokPattern;
+	}
+
+	@Override
+	public LogLineParser getImplementation(String id) {
+		final LogLineParser implementation = super.getImplementation(id);
+		if(implementation instanceof GrokLogFormatLogLineParser) {
+			((GrokLogFormatLogLineParser) implementation).init(parserPattern, new GrokResultMapper());
+		}
+		return implementation;
+	}
 
 	@Override
 	protected boolean matches(final String id, final LogLineParser implementation) {

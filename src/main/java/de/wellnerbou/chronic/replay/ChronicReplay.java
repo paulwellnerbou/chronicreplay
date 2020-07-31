@@ -68,7 +68,7 @@ public class ChronicReplay {
 	public void replay(final InputStream inputStream, final CliOptions options) throws IOException {
 		final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder().build();
 		final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
-		final LogLineParserProvider logLineParserProvider = new LogLineParserProvider();
+		final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
 		final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
 		final ResultDataLogger resultDataLogger = new ResultDataLogger();
 		resultDataLogger.logColumnTitles();

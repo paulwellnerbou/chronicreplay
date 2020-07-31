@@ -1,21 +1,16 @@
 package de.wellnerbou.chronic.replay;
 
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChronicReplayTest
 {
-	public void testMainOptionParsing() throws IOException {
-		String[] args = new String[] {};
-		ChronicReplay.main(args);
-	}
-
 	@Test
 	public void testGetLoggingDiscriminatorVariable() {
 		String testString = "http://subdomain.example.com/path";

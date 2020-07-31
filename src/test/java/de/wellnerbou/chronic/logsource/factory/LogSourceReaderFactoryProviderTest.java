@@ -1,7 +1,7 @@
 package de.wellnerbou.chronic.logsource.factory;
 
 import de.wellnerbou.chronic.plugins.NoImplementationFoundException;
-import org.fest.assertions.api.Assertions;
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class LogSourceReaderFactoryProviderTest {

@@ -4,7 +4,7 @@
 /bin
 /logs
 /log
-src/test/resources/faz-private-data
+src/test/resources/*private*
 .settings
 .classpath
 .project
@@ -12,3 +12,5 @@ src/test/resources/faz-private-data
 #*.log
 *.csv
 *.png
+out
+*PrivateIT.java
