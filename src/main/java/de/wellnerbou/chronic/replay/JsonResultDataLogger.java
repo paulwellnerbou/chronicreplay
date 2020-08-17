@@ -1,25 +1,20 @@
 package de.wellnerbou.chronic.replay;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
 import com.ning.http.client.Response;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.util.Date;
 
 public class JsonResultDataLogger implements ResultDataLogger {
     private static final Logger RESULTDATA_JSON = LoggerFactory.getLogger("RESULTDATA_JSON");
     private static final Logger RESULTDATA_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_SAMESTATUS");
-
-    @Override
-    public void logColumnTitles() {
-        logColumnTitles(RESULTDATA_JSON);
-        logColumnTitles(RESULTDATA_SAMESTATUS);
-    }
-
-    private void logColumnTitles(Logger logger) {
-    }
 
     @Override
     public void logResultDataLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime) {
@@ -30,8 +25,10 @@ public class JsonResultDataLogger implements ResultDataLogger {
         } catch (MalformedURLException e) {
             uriString = e.getMessage();
         }
-        jsonData.startTime = new DateTime(startTime);
-        jsonData.originalStartTime = new DateTime(originalData.getTime());
+        //jsonData.startTime = new DateTime(startTime);
+        jsonData.startTime = new DateTime(startTime).toString();
+        //jsonData.originalStartTime = new DateTime(originalData.getTime());
+        jsonData.originalStartTime = new DateTime(originalData.getTime()).toString();
         jsonData.statusCode = response.getStatusCode();
         jsonData.originalStatusCode = originalData.getStatusCode();
         jsonData.sameStatus = sameStatus;
@@ -46,7 +43,15 @@ public class JsonResultDataLogger implements ResultDataLogger {
     }
 
     private void logResultDataLine(JsonLogLineData jsonData, final Logger logger) {
-        Gson gson = new Gson();
+        Gson gson = new Gson();//Builder()
+         //       .registerTypeAdapter(java.sql.Date.class, ser).create();
+        //.setDateFormat(DateFormat.FULL,DateFormat.FULL).create();
+        //-MM-dd'T'HH:mm:ss.SSSXXX").create();
+        //JsonDeserializer<Date> dateJsonDeserializer =
+        //        (json, typeOfT, context) -> json == null ? null : new Date(json.getAsLong());
+        //son gson = new GsonBuilder().registerTypeAdapter(Date.class,dateJsonDeserializer).create();
+        //DateTime a = jsonData.startTime;
+        //String b = a.toString();
         logger.debug(gson.toJson(jsonData));
     }
 }

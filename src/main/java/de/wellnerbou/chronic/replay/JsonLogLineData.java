@@ -4,8 +4,10 @@ import org.joda.time.DateTime;
 
 public class JsonLogLineData {
 
-    public DateTime startTime;
-    public DateTime originalStartTime;
+    //public DateTime startTime;
+    public String startTime;
+    //public DateTime originalStartTime;
+    public String originalStartTime;
     public int statusCode;
     public String originalStatusCode;
     public Boolean sameStatus;
