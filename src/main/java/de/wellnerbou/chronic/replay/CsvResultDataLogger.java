@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 
 public class CsvResultDataLogger implements ResultDataLogger {
-	private static final Logger RESULTDATA_CSV = LoggerFactory.getLogger("RESULTDATA");
+	private static final Logger RESULTDATA_CSV = LoggerFactory.getLogger("RESULTDATA_CSV");
 	private static final Logger RESULTDATA_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_SAMESTATUS");
 
 	@Override

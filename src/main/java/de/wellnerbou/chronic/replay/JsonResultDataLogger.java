@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 
 public class JsonResultDataLogger implements ResultDataLogger {
-    private static final Logger RESULTDATA_JSON = LoggerFactory.getLogger("RESULTDATA");
+    private static final Logger RESULTDATA_JSON = LoggerFactory.getLogger("RESULTDATA_JSON");
     private static final Logger RESULTDATA_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_SAMESTATUS");
 
     @Override
