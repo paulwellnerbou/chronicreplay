@@ -9,12 +9,12 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 
 public class JsonResultDataLogger implements ResultDataLogger {
-    private static final Logger RESULTDATA = LoggerFactory.getLogger("RESULTDATA");
+    private static final Logger RESULTDATA_JSON = LoggerFactory.getLogger("RESULTDATA");
     private static final Logger RESULTDATA_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_SAMESTATUS");
 
     @Override
     public void logColumnTitles() {
-        logColumnTitles(RESULTDATA);
+        logColumnTitles(RESULTDATA_JSON);
         logColumnTitles(RESULTDATA_SAMESTATUS);
     }
 
@@ -30,7 +30,6 @@ public class JsonResultDataLogger implements ResultDataLogger {
         } catch (MalformedURLException e) {
             uriString = e.getMessage();
         }
-        //logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA);
         jsonData.startTime = new DateTime(startTime);
         jsonData.originalStartTime = new DateTime(originalData.getTime());
         jsonData.statusCode = response.getStatusCode();
@@ -40,9 +39,8 @@ public class JsonResultDataLogger implements ResultDataLogger {
         jsonData.originalDuration = originalData.getDuration();
         jsonData.difference = jsonData.duration-jsonData.originalDuration;
         jsonData.request = uriString;
-        logResultDataLine(jsonData, RESULTDATA);
+        logResultDataLine(jsonData, RESULTDATA_JSON);
         if(sameStatus) {
-            //logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_SAMESTATUS);
             logResultDataLine(jsonData, RESULTDATA_SAMESTATUS);
         }
     }
