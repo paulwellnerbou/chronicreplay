@@ -37,7 +37,7 @@ public class CsvResultDataLogger implements ResultDataLogger {
 			uriString = e.getMessage();
 		}
 		logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV);
-		if(sameStatus) {
+		if (sameStatus) {
 			logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_SAMESTATUS);
 		}
 	}

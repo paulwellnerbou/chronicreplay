@@ -54,7 +54,7 @@ public class ChronicReplay {
 	}
 
 	private InputStream getInputStreamFromGivenFile(final String file) throws IOException {
-		if(new File(file).exists()) {
+		if (new File(file).exists()) {
 			return new FileInputStream(file);
 		} else {
 			try {
@@ -70,9 +70,9 @@ public class ChronicReplay {
 		final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
 		final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
 		final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
-		final ResultDataLogger resultDataLogger = new CsvResultDataLogger();
-		resultDataLogger.logColumnTitles();
-		final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, resultDataLogger);
+		final CsvResultDataLogger csvResultDataLogger = new CsvResultDataLogger();
+		csvResultDataLogger.logColumnTitles();
+		final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, csvResultDataLogger);
 		lineReplayer.setHostHeader(options.getHostheader());
 		lineReplayer.setHeaders(options.getHeader());
 		lineReplayer.setFollowRedirects(options.getFollowRedirects());

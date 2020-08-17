@@ -21,7 +21,7 @@ public class GrokResultMapper {
 		logLineData.setRequestMethod(String.valueOf(map.get("verb")));
 		logLineData.setTime(toTimestamp(String.valueOf(map.get("timestamp"))));
 		logLineData.setStatusCode(String.valueOf(map.get("response")));
-		if(map.containsKey("duration")) {
+		if (map.containsKey("duration")) {
 			logLineData.setDuration(formatDuration(String.valueOf(map.get("duration"))));
 		}
 		logLineData.setReferrer(String.valueOf(map.get("referrer")));
