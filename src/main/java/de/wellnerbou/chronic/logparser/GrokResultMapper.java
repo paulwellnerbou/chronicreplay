@@ -5,11 +5,13 @@ import de.wellnerbou.chronic.replay.LogLineData;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAccessor;
+import java.util.Locale;
 import java.util.Map;
 
 public class GrokResultMapper {
 
-	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z");
+	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z").
+			withLocale((new Locale("en", "EN")));
 
 	public LogLineData map(final Map<String, Object> map) {
 		LogLineData logLineData = new LogLineData();

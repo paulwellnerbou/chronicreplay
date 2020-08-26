@@ -70,7 +70,7 @@ public class ChronicReplay {
 		final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
 		final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
 		final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
-		final ResultDataLogger resultDataLogger = new ResultDataLogger();
+		final ResultDataLogger resultDataLogger = new CsvResultDataLogger();
 		resultDataLogger.logColumnTitles();
 		final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, resultDataLogger);
 		lineReplayer.setHostHeader(options.getHostheader());

@@ -7,6 +7,8 @@ import com.google.common.annotations.VisibleForTesting;
 
 import de.wellnerbou.chronic.replay.LogLineData;
 
+import java.util.Locale;
+
 /**
  * Implementation of LogLineParser supporting apache log files written in following format, defined in
  * mod_log_config.conf:
@@ -32,7 +34,8 @@ import de.wellnerbou.chronic.replay.LogLineData;
  */
 public class CommonLogFormatLogLineParser implements LogLineParser {
 
-	static final DateTimeFormatter format = DateTimeFormat.forPattern("[dd/MMM/yyyy:HH:mm:ss");
+	static final DateTimeFormatter format = DateTimeFormat.forPattern("[dd/MMM/yyyy:HH:mm:ss")
+			.withLocale(new Locale("en", "EN"));
 
 	/*
 	 * (non-Javadoc)

@@ -30,7 +30,7 @@
 		</sift>
 	</appender>
 
-    <appender name="datalogger" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <appender name="datalogger_CSV" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>targetserver</key>
             <defaultValue>default</defaultValue>
@@ -38,6 +38,22 @@
         <sift>
             <appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
                 <file>log/chronicreplay-${targetserver}.csv</file>
+                <append>false</append>
+                <layout class="ch.qos.logback.classic.PatternLayout">
+                    <pattern>%msg%n</pattern>
+                </layout>
+            </appender>
+        </sift>
+    </appender>
+
+    <appender name="datalogger_JSON" class="ch.qos.logback.classic.sift.SiftingAppender">
+        <discriminator>
+            <key>targetserver</key>
+            <defaultValue>default</defaultValue>
+        </discriminator>
+        <sift>
+            <appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
+                <file>log/chronicreplay-${targetserver}.json</file>
                 <append>false</append>
                 <layout class="ch.qos.logback.classic.PatternLayout">
                     <pattern>%msg%n</pattern>
@@ -62,8 +78,12 @@
         </sift>
     </appender>
 
-    <logger name="RESULTDATA" level="debug">
-        <appender-ref ref="datalogger" />
+    <logger name="RESULTDATA_CSV" level="debug">
+        <appender-ref ref="datalogger_CSV" />
+    </logger>
+
+    <logger name="RESULTDATA_JSON" level="debug">
+        <appender-ref ref="datalogger_JSON" />
     </logger>
 
     <logger name="RESULTDATA_SAMESTATUS" level="debug">
