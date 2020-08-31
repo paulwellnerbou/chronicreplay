@@ -12,21 +12,21 @@ import java.util.Locale;
 /**
  * Implementation of LogLineParser supporting apache log files written in following format, defined in
  * mod_log_config.conf:
- * 
+ *
  * <pre>
  * LogFormat "%h %l %u %t \"%r\" %>s %b"
  * </pre>
- * 
+ * <p>
  * Example:
- * 
+ *
  * <pre>
  * 127.0.0.1 - - [02/Jan/2014:11:55:12 +0100] "GET / HTTP/1.1" 200 481
  * </pre>
- * 
+ * <p>
  * This format is defined by apache as the default log format, named Common Log Format (CLF). This is documented on
  * <a href="http://httpd.apache.org/docs/current/mod/mod_log_config.html">http://httpd.apache.org/docs/current/mod/
  * mod_log_config.html</a>.
- * 
+ * <p>
  * Unfortunately, there is no request duration time information in this log message, so it won't be possible to compare
  * the original and the actual time, you will just be able to simulate traffic on your target system.
  *
@@ -56,7 +56,7 @@ public class CommonLogFormatLogLineParser implements LogLineParser {
 	}
 
 	protected String castToStringOrThrowException(final Object logLine) throws IllegalArgumentException {
-		if(logLine instanceof CharSequence) {
+		if (logLine instanceof CharSequence) {
 			return logLine.toString();
 		} else {
 			throw new IllegalArgumentException("Argument is of type " + logLine.getClass().getName() + ", expected is " + CharSequence.class.getName());

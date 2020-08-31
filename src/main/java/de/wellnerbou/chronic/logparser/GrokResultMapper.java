@@ -10,8 +10,7 @@ import java.util.Map;
 
 public class GrokResultMapper {
 
-	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z").
-			withLocale((new Locale("en", "EN")));
+	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z").withLocale((new Locale("en", "EN")));
 
 	public LogLineData map(final Map<String, Object> map) {
 		LogLineData logLineData = new LogLineData();
