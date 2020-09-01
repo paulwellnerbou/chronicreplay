@@ -27,6 +27,5 @@ public class JsonResultDataLoggerTest {
 		when(response.getUri()).thenReturn(new URI("http://www.example.com"));
 
 		jsonResultDataLogger.logResultDataLine(logLineData, response, Boolean.TRUE, 10, Instant.now().toEpochMilli());
-		Assertions.assertThat(logLineData.getDuration()).isEqualTo(0L);
 	}
 }
