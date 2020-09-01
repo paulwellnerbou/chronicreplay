@@ -70,9 +70,8 @@ public class ChronicReplay {
 		final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
 		final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
 		final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
-		final CsvResultDataLogger csvResultDataLogger = new CsvResultDataLogger();
-		csvResultDataLogger.logColumnTitles();
-		final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, csvResultDataLogger);
+		final ResultDataLogger resultDataLogger = createLogger(options.getLogger());
+		final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, resultDataLogger);
 		lineReplayer.setHostHeader(options.getHostheader());
 		lineReplayer.setHeaders(options.getHeader());
 		lineReplayer.setFollowRedirects(options.getFollowRedirects());
@@ -89,5 +88,18 @@ public class ChronicReplay {
 
 	private void close(AsyncHttpClient asyncHttpClient) {
 		asyncHttpClient.closeAsynchronously();
+	}
+
+	private ResultDataLogger createLogger(final String loggerType) {
+
+		if (loggerType.equals("json")) {
+			final JsonResultDataLogger jsonResultDataLogger = new JsonResultDataLogger();
+			return jsonResultDataLogger;
+		} else {
+			final CsvResultDataLogger csvResultDataLogger = new CsvResultDataLogger();
+			csvResultDataLogger.logColumnTitles();
+			return csvResultDataLogger;
+		}
+
 	}
 }

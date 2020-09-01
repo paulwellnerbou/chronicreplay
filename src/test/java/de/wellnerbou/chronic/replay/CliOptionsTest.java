@@ -62,4 +62,16 @@ public class CliOptionsTest {
 		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--header", "Accept: nothing", "--header", "Host: example.com");
 		Assertions.assertThat(options.getHeader()).hasSize(2);
 	}
+
+	@Test
+	public void testLoggerDefaultValue() {
+		final CliOptions options = cli.parseArguments("--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--followRedirects");
+		Assertions.assertThat(options.getLogger()).isEqualTo("csv");
+	}
+
+	@Test
+	public void testLogger() {
+		final CliOptions options = cli.parseArguments("--logger", "json", "--logparser", "simple", "--host", "http://localhost", "--logfile", "", "--followRedirects");
+		Assertions.assertThat(options.getLogger()).isEqualTo("json");
+	}
 }

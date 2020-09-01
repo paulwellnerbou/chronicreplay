@@ -21,14 +21,12 @@ public class JsonResultDataLoggerTest {
 	@Test
 	public void testJsonLogging() throws URISyntaxException, MalformedURLException {
 		final LogLineData logLineData = new LogLineData();
-		logLineData.setDuration(20L);
-		logLineData.setStatusCode("500");
 		logLineData.setTime(Instant.now().toEpochMilli());
 
 		final Response response = Mockito.mock(Response.class);
 		when(response.getUri()).thenReturn(new URI("http://www.example.com"));
 
 		jsonResultDataLogger.logResultDataLine(logLineData, response, Boolean.TRUE, 10, Instant.now().toEpochMilli());
-		Assertions.assertThat(logLineData.getDuration()).isEqualTo(20L);
+		Assertions.assertThat(logLineData.getDuration()).isEqualTo(0L);
 	}
 }

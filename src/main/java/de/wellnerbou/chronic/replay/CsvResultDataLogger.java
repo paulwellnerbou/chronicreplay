@@ -9,12 +9,12 @@ import java.net.MalformedURLException;
 
 public class CsvResultDataLogger implements ResultDataLogger {
 	private static final Logger RESULTDATA_CSV = LoggerFactory.getLogger("RESULTDATA_CSV");
-	private static final Logger RESULTDATA_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_SAMESTATUS");
+	private static final Logger RESULTDATA_CSV_SAMESTATUS = LoggerFactory.getLogger("RESULTDATA_CSV_SAMESTATUS");
 
 	@Override
 	public void logColumnTitles() {
 		logColumnTitles(RESULTDATA_CSV);
-		logColumnTitles(RESULTDATA_SAMESTATUS);
+		logColumnTitles(RESULTDATA_CSV_SAMESTATUS);
 	}
 
 	private void logColumnTitles(Logger logger) {
@@ -38,7 +38,7 @@ public class CsvResultDataLogger implements ResultDataLogger {
 		}
 		logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV);
 		if (sameStatus) {
-			logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_SAMESTATUS);
+			logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV_SAMESTATUS);
 		}
 	}
 

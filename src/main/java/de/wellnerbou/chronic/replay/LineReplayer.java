@@ -20,14 +20,14 @@ public class LineReplayer {
     private String hostHeader = null;
     private List<Header> headers = new ArrayList<>();
     private AsyncHttpClient asyncHttpClient;
-    private CsvResultDataLogger csvResultDataLogger;
+    private ResultDataLogger resultDataLogger;
 
     private boolean followRedirects = false;
 
-    public LineReplayer(final String host, final AsyncHttpClient asyncHttpClient, final CsvResultDataLogger csvResultDataLogger) {
+    public LineReplayer(final String host, final AsyncHttpClient asyncHttpClient, final ResultDataLogger resultDataLogger) {
         this.host = host;
         this.asyncHttpClient = asyncHttpClient;
-        this.csvResultDataLogger = csvResultDataLogger;
+        this.resultDataLogger = resultDataLogger;
     }
 
     public ListenableFuture<Response> replay(final LogLineData logLineData) throws IOException {
@@ -51,7 +51,7 @@ public class LineReplayer {
             req.setHeader("user-agent", logLineData.getUserAgent());
         }
         LOG.info("Executing request {}: {} with host headers {}", req, host + logLineData.getRequest(), usedHostHeader);
-        return req.execute(new LoggingAsyncCompletionHandler(logLineData, csvResultDataLogger));
+        return req.execute(new LoggingAsyncCompletionHandler(logLineData, resultDataLogger));
     }
 
     public void setHostHeader(final String hostHeader) {

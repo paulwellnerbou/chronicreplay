@@ -13,10 +13,10 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 
 	private long startTime;
 	private LogLineData originalData;
-	private CsvResultDataLogger csvResultDataLogger;
+	private ResultDataLogger resultDataLogger;
 
-	public LoggingAsyncCompletionHandler(final LogLineData originalData, final CsvResultDataLogger csvResultDataLogger) {
-		this.csvResultDataLogger = csvResultDataLogger;
+	public LoggingAsyncCompletionHandler(final LogLineData originalData, final ResultDataLogger resultDataLogger) {
+		this.resultDataLogger = resultDataLogger;
 		this.startTime = System.currentTimeMillis();
 		this.originalData = originalData;
 	}
@@ -47,7 +47,7 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 		} catch (NumberFormatException e) {
 			LOG.warn("Unable to parse original status code to int: {}", originalData.getStatusCode());
 		}
-		csvResultDataLogger.logResultDataLine(originalData, response, sameStatus, duration, startTime);
+		resultDataLogger.logResultDataLine(originalData, response, sameStatus, duration, startTime);
 		LOG.info("Status={} OriginalStatus={} SameStatus={} Duration={} OriginalDuration={} Difference={} Request={}", response.getStatusCode(), originalData.getStatusCode(),
 				sameStatus, duration,
 				originalData.getDuration(),
