@@ -30,7 +30,7 @@
 		</sift>
 	</appender>
 
-    <appender name="datalogger_CSV" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <appender name="datalogger-csv" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>targetserver</key>
             <defaultValue>default</defaultValue>
@@ -46,23 +46,23 @@
         </sift>
     </appender>
 
-    <appender name="datalogger_JSON" class="ch.qos.logback.classic.sift.SiftingAppender">
-        <discriminator>
-            <key>targetserver</key>
-            <defaultValue>default</defaultValue>
-        </discriminator>
-        <sift>
-            <appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
-                <file>log/chronicreplay-${targetserver}.json</file>
-                <append>false</append>
-                <layout class="ch.qos.logback.classic.PatternLayout">
-                    <pattern>%msg%n</pattern>
-                </layout>
-            </appender>
-        </sift>
-    </appender>
+	<appender name="datalogger-json" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>targetserver</key>
+			<defaultValue>default</defaultValue>
+		</discriminator>
+		<sift>
+			<appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
+				<file>log/chronicreplay-${targetserver}.json</file>
+				<append>false</append>
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<pattern>%msg%n</pattern>
+				</layout>
+			</appender>
+		</sift>
+	</appender>
 
-    <appender name="datalogger-samestatus" class="ch.qos.logback.classic.sift.SiftingAppender">
+    <appender name="datalogger-csv-samestatus" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator>
             <key>targetserver</key>
             <defaultValue>default</defaultValue>
@@ -78,24 +78,44 @@
         </sift>
     </appender>
 
+	<appender name="datalogger-json-samestatus" class="ch.qos.logback.classic.sift.SiftingAppender">
+		<discriminator>
+			<key>targetserver</key>
+			<defaultValue>default</defaultValue>
+		</discriminator>
+		<sift>
+			<appender name="${targetserver}" class="ch.qos.logback.core.FileAppender">
+				<file>log/chronicreplay-${targetserver}-sameStatus.json</file>
+				<append>false</append>
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<pattern>%msg%n</pattern>
+				</layout>
+			</appender>
+		</sift>
+	</appender>
+
     <logger name="RESULTDATA_CSV" level="debug">
-        <appender-ref ref="datalogger_CSV" />
+        <appender-ref ref="datalogger-csv" />
     </logger>
 
-    <logger name="RESULTDATA_JSON" level="debug">
-        <appender-ref ref="datalogger_JSON" />
+	<logger name="RESULTDATA_JSON" level="debug">
+		<appender-ref ref="datalogger-json" />
+	</logger>
+
+    <logger name="RESULTDATA_CSV_SAMESTATUS" level="debug">
+        <appender-ref ref="datalogger-csv-samestatus" />
     </logger>
 
-    <logger name="RESULTDATA_SAMESTATUS" level="debug">
-        <appender-ref ref="datalogger-samestatus" />
-    </logger>
+	<logger name="RESULTDATA_JSON_SAMESTATUS" level="debug">
+		<appender-ref ref="datalogger-json-samestatus" />
+	</logger>
 
 	<root level="info">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="logfile"/>
 		<appender-ref ref="siftingfileappender"/>
 	</root>
-	
+
 	<logger name="ch.qos.logback" level="warn" additivity="false" />
-	
+
 </configuration>

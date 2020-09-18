@@ -21,6 +21,9 @@ public interface CliOptions {
 	@Option
 	String getLogparser();
 
+	@Option(defaultValue = "csv")
+	String getLogger();
+
 	@Option
 	boolean getFollowRedirects();
 

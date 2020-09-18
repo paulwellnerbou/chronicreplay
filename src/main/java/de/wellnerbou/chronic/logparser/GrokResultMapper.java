@@ -10,8 +10,7 @@ import java.util.Map;
 
 public class GrokResultMapper {
 
-	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z").
-			withLocale((new Locale("en", "EN")));
+	private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MMM/yyyy:HH:mm:ss Z").withLocale((new Locale("en", "EN")));
 
 	public LogLineData map(final Map<String, Object> map) {
 		LogLineData logLineData = new LogLineData();
@@ -21,7 +20,7 @@ public class GrokResultMapper {
 		logLineData.setRequestMethod(String.valueOf(map.get("verb")));
 		logLineData.setTime(toTimestamp(String.valueOf(map.get("timestamp"))));
 		logLineData.setStatusCode(String.valueOf(map.get("response")));
-		if(map.containsKey("duration")) {
+		if (map.containsKey("duration")) {
 			logLineData.setDuration(formatDuration(String.valueOf(map.get("duration"))));
 		}
 		logLineData.setReferrer(String.valueOf(map.get("referrer")));
