@@ -13,6 +13,9 @@ public interface CliOptions {
 	String getHost();
 
 	@Option(defaultToNull = true)
+	List<String> getHostmap();
+
+	@Option(defaultToNull = true)
 	String getHostheader();
 
 	@Option(defaultValue = {})

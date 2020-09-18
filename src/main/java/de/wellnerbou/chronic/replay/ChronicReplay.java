@@ -73,7 +73,8 @@ public class ChronicReplay {
         final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
         final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
         final ResultDataLogger resultDataLogger = createLogger(options.getLogger());
-        final LineReplayer lineReplayer = new LineReplayer(options.getHost(), asyncHttpClient, resultDataLogger);
+        final HostRequestBuilder hostRequestBuilder = new HostRequestBuilder(options.getHost(), options.getHostmap());
+        final LineReplayer lineReplayer = new LineReplayer(hostRequestBuilder, asyncHttpClient, resultDataLogger);
         lineReplayer.setHostHeader(options.getHostheader());
         lineReplayer.setHeaders(options.getHeader());
         lineReplayer.setFollowRedirects(options.getFollowRedirects());

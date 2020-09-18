@@ -3,8 +3,6 @@ package de.wellnerbou.chronic.logparser;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import de.wellnerbou.chronic.replay.LogLineData;
 
 import java.util.Locale;
@@ -63,7 +61,6 @@ public class CommonLogFormatLogLineParser implements LogLineParser {
 		}
 	}
 
-	@VisibleForTesting
 	protected long formatDate(final String s) {
 		return format.parseMillis(s);
 	}

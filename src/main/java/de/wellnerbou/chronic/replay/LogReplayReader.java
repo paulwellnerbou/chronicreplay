@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -19,12 +20,12 @@ public class LogReplayReader {
 
 	private static final Logger LOG = LoggerFactory.getLogger(LogReplayReader.class);
 
-	private LineReplayer lineReplayer;
-	private LogLineParser logLineParser;
-	private LogSourceReaderFactory logSourceReaderFactory;
+	private final LineReplayer lineReplayer;
+	private final LogLineParser logLineParser;
+	private final LogSourceReaderFactory logSourceReaderFactory;
 	private Long delay;
 
-	private List<ListenableFuture<Response>> spawnedFutures = new ArrayList<>();
+	private final List<ListenableFuture<Response>> spawnedFutures = new ArrayList<>();
 	private boolean waitForTermination;
 
 	public LogReplayReader(final LineReplayer lineReplayer, final LogLineParser logLineParser, final LogSourceReaderFactory logSourceReaderFactory) {
@@ -43,7 +44,11 @@ public class LogReplayReader {
 				if (isBeforeTimeRangeEnd(until, lineData)) {
 					Delayer delayer = new Delayer(calculateStarttimeRelativeToLogs(from, lineData));
 					if(isInTimeRange(from, until, lineData)) {
-						lineReplayer.replay(lineData);
+						try {
+							lineReplayer.replay(lineData);
+						} catch (URISyntaxException e) {
+							LOG.error("Exception replaying line {}", line, e);
+						}
 					}
 
 					while ((line = logSourceReader.next()) != null && lineData != null && isBeforeTimeRangeEnd(until, lineData)) {
@@ -63,7 +68,7 @@ public class LogReplayReader {
 									}
 								}
 							}
-						} catch (InterruptedException | RuntimeException e) {
+						} catch (InterruptedException | RuntimeException | URISyntaxException e) {
 							LOG.error("Exception replaying line {}", line, e);
 						}
 					}

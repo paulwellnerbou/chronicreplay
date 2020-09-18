@@ -1,7 +1,5 @@
 package de.wellnerbou.chronic.logparser;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import de.wellnerbou.chronic.replay.LogLineData;
 
 /**
@@ -47,7 +45,6 @@ public class CombinedLogFormatLogLineParser extends CommonLogFormatLogLineParser
 		return logLineData;
 	}
 
-	@VisibleForTesting
 	protected String getUserAgent(final String[] parts) {
 		int index = 11;
 		StringBuffer stringBuffer = new StringBuffer(parts[index++]);
