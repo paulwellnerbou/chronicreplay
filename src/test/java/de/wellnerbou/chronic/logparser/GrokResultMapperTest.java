@@ -1,6 +1,5 @@
 package de.wellnerbou.chronic.logparser;
 
-import com.google.common.collect.Maps;
 import de.wellnerbou.chronic.replay.LogLineData;
 import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
@@ -8,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 public class GrokResultMapperTest {
 
@@ -20,7 +20,7 @@ public class GrokResultMapperTest {
 
 	@Test
 	public void testMap() {
-		Map<String, Object> map = Maps.newTreeMap();
+		Map<String, Object> map = new TreeMap<>();
 		map.put("agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_2) AppleWebKit/537.22 (KHTML, like Gecko) Chrome/25.0.1364.152 Safari/537.22");
 		map.put("clientip", "112.169.19.192");
 		map.put("request", "/");
@@ -45,7 +45,7 @@ public class GrokResultMapperTest {
 
 	@Test
 	public void testCorrectTimeMapping() {
-		Map<String, Object> map = Maps.newTreeMap();
+		Map<String, Object> map = new TreeMap<>();
 		map.put("timestamp", "06/Mar/2013:01:36:30 +0900");
 
 		LogLineData logLineData = grokResultMapper.map(map);
@@ -53,5 +53,17 @@ public class GrokResultMapperTest {
 
 		final DateTime dateTime = new DateTime(logLineData.getTime());
 		Assertions.assertThat(dateTime.toString()).isEqualTo("2013-03-06T02:36:30.000+01:00");
+	}
+
+	@Test
+	public void testCorrectTimeMapping_timezoneUnaware() {
+		Map<String, Object> map = new TreeMap<>();
+		map.put("timestamp", "18/Sep/2020:03:45:01 +0200");
+
+		LogLineData logLineData = grokResultMapper.map(map);
+		Assertions.assertThat(logLineData.getTime()).isEqualTo(1600400701000L);
+
+		final DateTime dateTime = new DateTime(logLineData.getTime());
+		Assertions.assertThat(dateTime.toString()).isEqualTo("2020-09-18T05:45:01.000+02:00");
 	}
 }

@@ -9,8 +9,9 @@ src/test/resources/*private*
 .classpath
 .project
 *.iml
-#*.log
+*.log
 *.csv
 *.png
 out
 *PrivateIT.java
+tmp

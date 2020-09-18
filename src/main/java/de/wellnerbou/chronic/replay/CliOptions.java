@@ -9,8 +9,11 @@ public interface CliOptions {
 	@Option
 	String getLogfile();
 
-	@Option
+	@Option(defaultToNull = true)
 	String getHost();
+
+	@Option(defaultToNull = true)
+	List<String> getHostmap();
 
 	@Option(defaultToNull = true)
 	String getHostheader();
