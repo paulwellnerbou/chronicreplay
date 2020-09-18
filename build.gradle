@@ -8,7 +8,7 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 
 group = 'de.wellnerbou'
-version = '1.6.0-SNAPSHOT'
+version = '2.0.0'
 
 description = """chronicreplay"""
 
