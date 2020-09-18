@@ -76,6 +76,17 @@ public class ChronicReplayIT {
 	}
 
 	@Test
+	public void testRun_() throws IOException {
+		String[] args = new String[]{
+				"--logfile=src/test/resources/deutschlandradio-private/varnish.log",
+				"--logparser=grok",
+				"--grokpattern=(%{IPORHOST:clientip},|-) %{IPORHOST:clientip2} - \\[%{HTTPDATE:timestamp}\\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) \"(%{NOTSPACE:referrer}|-)\" \"(?:%{GREEDYDATA:useragent})\" \"(?:%{WORD:scheme})\"",
+				"--wait-for-termination"
+		};
+		ChronicReplay.main(args);
+	}
+
+	@Test
 	public void testRunWithJsonLogger() throws IOException {
 		String[] args = new String[]{"--host=http://www.example.com",
 				"--logfile=src/test/resources/combined-log-example.log",

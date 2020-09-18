@@ -10,6 +10,7 @@ public class LogLineData {
 	private String userAgent;
 	private String referrer;
 	private String host;
+	private String scheme;
 
 	public long getTime() {
 		return time;
@@ -91,6 +92,15 @@ public class LogLineData {
 				", userAgent='" + userAgent + '\'' +
 				", referrer='" + referrer + '\'' +
 				", host='" + host + '\'' +
+				", scheme='" + scheme + '\'' +
 				'}';
+	}
+
+	public String getScheme() {
+		return scheme;
+	}
+
+	public void setScheme(final String scheme) {
+		this.scheme = scheme;
 	}
 }

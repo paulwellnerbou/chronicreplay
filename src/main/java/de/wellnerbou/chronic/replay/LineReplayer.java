@@ -16,16 +16,16 @@ public class LineReplayer {
 
     private static final Logger LOG = LoggerFactory.getLogger(LineReplayer.class);
 
-    private String host;
+    private final String host;
     private String hostHeader = null;
     private List<Header> headers = new ArrayList<>();
-    private AsyncHttpClient asyncHttpClient;
-    private ResultDataLogger resultDataLogger;
+    private final AsyncHttpClient asyncHttpClient;
+    private final ResultDataLogger resultDataLogger;
 
     private boolean followRedirects = false;
 
     public LineReplayer(final String host, final AsyncHttpClient asyncHttpClient, final ResultDataLogger resultDataLogger) {
-        this.host = host;
+        this.host = host != null ? host : "";
         this.asyncHttpClient = asyncHttpClient;
         this.resultDataLogger = resultDataLogger;
     }

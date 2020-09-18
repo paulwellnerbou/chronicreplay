@@ -54,4 +54,16 @@ public class GrokResultMapperTest {
 		final DateTime dateTime = new DateTime(logLineData.getTime());
 		Assertions.assertThat(dateTime.toString()).isEqualTo("2013-03-06T02:36:30.000+01:00");
 	}
+
+	@Test
+	public void testCorrectTimeMapping_timezoneUnaware() {
+		Map<String, Object> map = Maps.newTreeMap();
+		map.put("timestamp", "18/Sep/2020:03:45:01 +0200");
+
+		LogLineData logLineData = grokResultMapper.map(map);
+		Assertions.assertThat(logLineData.getTime()).isEqualTo(1600400701000L);
+
+		final DateTime dateTime = new DateTime(logLineData.getTime());
+		Assertions.assertThat(dateTime.toString()).isEqualTo("2020-09-18T05:45:01.000+02:00");
+	}
 }
