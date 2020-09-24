@@ -18,6 +18,9 @@ public interface CliOptions {
 	@Option(defaultToNull = true)
 	String getHostheader();
 
+	@Option(defaultToNull = true)
+	String getCustomUserAgent();
+
 	@Option(defaultValue = {})
 	List<String> getHeader();
 

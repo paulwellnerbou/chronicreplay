@@ -15,9 +15,11 @@ import java.util.stream.Collectors;
 
 public class LineReplayer {
 
+    public static final String USER_AGENT_HEADER_NAME = "user-agent";
     private static final Logger LOG = LoggerFactory.getLogger(LineReplayer.class);
 
     private String hostHeader = null;
+    private String customUserAgent = null;
     private List<Header> headers = new ArrayList<>();
     private final HostRequestBuilder hostRequestBuilder;
     private final AsyncHttpClient asyncHttpClient;
@@ -45,15 +47,24 @@ public class LineReplayer {
         }
         req = req.setVirtualHost(usedHostHeader);
 
-        for (final Header header : headers) {
-            req = req.setHeader(header.getName(), header.getValue());
-        }
-
-        if (logLineData.getUserAgent() != null) {
+        if(customUserAgent != null) {
+            req.setHeader(USER_AGENT_HEADER_NAME, customUserAgent);
+        } else if (logLineData.getUserAgent() != null) {
             req.setHeader("user-agent", logLineData.getUserAgent());
         }
+
+        for (final Header header : headers) {
+            if (header != null && header.getName() != null) {
+                req = req.setHeader(header.getName(), header.getValue());
+            }
+        }
+
         LOG.info("Executing request {}: {} with host headers {}", req, requestTarget, usedHostHeader);
         return req.execute(new LoggingAsyncCompletionHandler(logLineData, resultDataLogger));
+    }
+
+    public void setCustomUserAgent(final String customUserAgent) {
+        this.customUserAgent = customUserAgent;
     }
 
     public void setHostHeader(final String hostHeader) {
