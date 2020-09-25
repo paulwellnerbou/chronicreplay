@@ -16,7 +16,7 @@ public class CombinedLogFormatLogLineParserTest {
 	public void testParseLine() {
 		LogLineData logLineData = combinedLogFormatLogLineReader.parseLine(TEST_LINE);
 
-		assertThat(logLineData.getTime()).isEqualTo(1388660112000L);
+		assertThat(logLineData.getTime()).isEqualTo(1388663712000L);
 		assertThat(logLineData.getRequestMethod()).isEqualTo("GET");
 		assertThat(logLineData.getRequest()).isEqualTo("/");
 		assertThat(logLineData.getDuration()).isEqualTo(0);

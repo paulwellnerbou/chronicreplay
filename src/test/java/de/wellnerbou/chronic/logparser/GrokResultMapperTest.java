@@ -58,7 +58,7 @@ public class GrokResultMapperTest {
 		Assertions.assertThat(logLineData.getTime()).isEqualTo(1362533790000L);
 
 		final DateTime dateTime = new DateTime(logLineData.getTime());
-		Assertions.assertThat(dateTime.toString()).isEqualTo("2013-03-06T02:36:30.000+01:00");
+		Assertions.assertThat(dateTime.toString()).isEqualTo("2013-03-06T01:36:30.000Z");
 	}
 
 	@Test
@@ -70,6 +70,6 @@ public class GrokResultMapperTest {
 		Assertions.assertThat(logLineData.getTime()).isEqualTo(1600400701000L);
 
 		final DateTime dateTime = new DateTime(logLineData.getTime());
-		Assertions.assertThat(dateTime.toString()).isEqualTo("2020-09-18T05:45:01.000+02:00");
+		Assertions.assertThat(dateTime.toString()).isEqualTo("2020-09-18T03:45:01.000Z");
 	}
 }

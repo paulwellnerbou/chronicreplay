@@ -31,7 +31,7 @@ public class SimpleLogLineParserTest {
 	}
 
 	private void assertCorrectValues(final LogLineData parsed) {
-		Assertions.assertThat(parsed.getTime()).isEqualTo(1447265943000L);
+		Assertions.assertThat(parsed.getTime()).isEqualTo(1447269543000L);
 		Assertions.assertThat(parsed.getRequest()).isEqualTo("http://example.com");
 		Assertions.assertThat(parsed.getDuration()).isEqualTo(125);
 	}
