@@ -37,14 +37,8 @@ public class LineReplayer {
         final String requestTarget = hostRequestBuilder.requestTarget(logLineData.getRequest());
         BoundRequestBuilder req = asyncHttpClient.prepareGet(requestTarget);
         req.setFollowRedirects(followRedirects);
-        String usedHostHeader = null;
-        if (logLineData.getHost() == null) {
-            if (hostHeader != null) {
-                usedHostHeader = hostHeader;
-            }
-        } else {
-            usedHostHeader = logLineData.getHost();
-        }
+
+        String usedHostHeader = detectVirtualHostHeader(logLineData);
         req = req.setVirtualHost(usedHostHeader);
 
         if(customUserAgent != null) {
@@ -61,6 +55,16 @@ public class LineReplayer {
 
         LOG.info("Executing request {}: {} with host headers {}", req, requestTarget, usedHostHeader);
         return req.execute(new LoggingAsyncCompletionHandler(logLineData, resultDataLogger));
+    }
+
+    private String detectVirtualHostHeader(final LogLineData logLineData) throws URISyntaxException {
+        if(logLineData.getHost() != null) {
+            return logLineData.getHost();
+        }
+        if(hostHeader != null) {
+            return hostHeader;
+        }
+        return hostRequestBuilder.getVirtualHost(logLineData.getRequest());
     }
 
     public void setCustomUserAgent(final String customUserAgent) {

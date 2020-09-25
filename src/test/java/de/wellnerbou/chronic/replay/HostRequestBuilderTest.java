@@ -12,7 +12,7 @@ public class HostRequestBuilderTest {
     @Test
     public void singleHostname() throws URISyntaxException {
         final HostRequestBuilder hostRequestBuilder = new HostRequestBuilder("myhost");
-        assertThat(hostRequestBuilder.getHost("/any/request")).isEqualTo("myhost");
+        assertThat(hostRequestBuilder.getVirtualHost("/any/request")).isEqualTo("myhost");
     }
 
     @Test

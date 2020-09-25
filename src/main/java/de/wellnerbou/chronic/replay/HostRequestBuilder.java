@@ -11,14 +11,14 @@ import java.util.Map;
 public class HostRequestBuilder {
 
     private final Map<String, String> hostmap = new HashMap<>();
-    private String defaultHost = "";
+    private final String targetHost;
 
     public HostRequestBuilder(final String host) {
         this(host, null);
     }
 
     public HostRequestBuilder(final String host, final List<String> hostmaplist) {
-        this.defaultHost = host != null ? host : "";
+        this.targetHost = host != null ? host : "";
         if (hostmaplist != null) {
             hostmaplist.forEach(s -> {
                 final String[] split = s.split(":");
@@ -29,22 +29,41 @@ public class HostRequestBuilder {
         }
     }
 
-    public String getHost(final String request) throws URISyntaxException {
+    public String getTargetHost(final String request) throws URISyntaxException {
+        if(targetHost != null) {
+            return targetHost;
+        }
+
+        return getVirtualHost(request);
+    }
+
+    public String getVirtualHost(final String request) throws URISyntaxException {
         if (request.startsWith("http://") || request.startsWith("https://")) {
             final URI uri = new URI(request);
             if (hostmap.containsKey(uri.getHost())) {
-                return uri.getScheme() + "://" + hostmap.get(uri.getHost());
+                return prefixScheme(uri, hostmap.get(uri.getHost()));
             }
-            if (hostmap.containsKey(uri.getScheme() + "://" + uri.getHost())) {
-                return hostmap.get(uri.getScheme() + "://" + uri.getHost());
+            if (hostmap.containsKey(prefixScheme(uri, uri.getHost()))) {
+                return prefixScheme(uri, hostmap.get(prefixScheme(uri, uri.getHost())));
+            }
+            if(hostmap.containsKey("*")) {
+                return prefixScheme(uri, hostmap.get("*"));
             }
         }
 
-        return this.defaultHost;
+        return this.targetHost;
+    }
+
+    private String prefixScheme(final URI uri, String mappedHost) {
+        if (mappedHost.startsWith("http://") || mappedHost.startsWith("https://")) {
+            return mappedHost;
+        } else {
+            return uri.getScheme() + "://" + mappedHost;
+        }
     }
 
     String requestTarget(String requestTarget) throws URISyntaxException {
-        final String host = getHost(requestTarget);
+        final String host = getTargetHost(requestTarget);
         if (host.length() > 0 && (requestTarget.startsWith("http://") || requestTarget.startsWith("https://"))) {
             final URI uri = new URI(host);
             final URIBuilder uriBuilder = new URIBuilder(requestTarget).setHost(uri.getHost()).setScheme(uri.getScheme());
