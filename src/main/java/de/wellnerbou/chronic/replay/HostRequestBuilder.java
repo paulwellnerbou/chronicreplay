@@ -34,17 +34,18 @@ public class HostRequestBuilder {
             return targetHost;
         }
 
-        return getVirtualHost(request);
+        return getVirtualHostScheme(request);
     }
 
-    public String getVirtualHost(final String request) throws URISyntaxException {
+    public String getVirtualHostScheme(final String request) throws URISyntaxException {
         if (request.startsWith("http://") || request.startsWith("https://")) {
             final URI uri = new URI(request);
             if (hostmap.containsKey(uri.getHost())) {
                 return prefixScheme(uri, hostmap.get(uri.getHost()));
             }
-            if (hostmap.containsKey(prefixScheme(uri, uri.getHost()))) {
-                return prefixScheme(uri, hostmap.get(prefixScheme(uri, uri.getHost())));
+            final String hostScheme = prefixScheme(uri, uri.getHost());
+            if (hostmap.containsKey(hostScheme)) {
+                return prefixScheme(uri, hostmap.get(hostScheme));
             }
             if(hostmap.containsKey("*")) {
                 return prefixScheme(uri, hostmap.get("*"));

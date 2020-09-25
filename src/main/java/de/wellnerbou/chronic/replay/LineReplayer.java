@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,7 +65,12 @@ public class LineReplayer {
         if(hostHeader != null) {
             return hostHeader;
         }
-        return hostRequestBuilder.getVirtualHost(logLineData.getRequest());
+        final String virtualHostScheme = hostRequestBuilder.getVirtualHostScheme(logLineData.getRequest());
+        if(virtualHostScheme != null && (virtualHostScheme.startsWith("http://") || virtualHostScheme.startsWith("https://"))) {
+            return new URI(virtualHostScheme).getHost();
+        } else {
+            return virtualHostScheme;
+        }
     }
 
     public void setCustomUserAgent(final String customUserAgent) {

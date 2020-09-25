@@ -12,7 +12,7 @@ public class HostRequestBuilderTest {
     @Test
     public void singleHostname() throws URISyntaxException {
         final HostRequestBuilder hostRequestBuilder = new HostRequestBuilder("myhost");
-        assertThat(hostRequestBuilder.getVirtualHost("/any/request")).isEqualTo("myhost");
+        assertThat(hostRequestBuilder.getVirtualHostScheme("/any/request")).isEqualTo("myhost");
     }
 
     @Test
@@ -49,6 +49,6 @@ public class HostRequestBuilderTest {
     public void requestTarget_with_mapping_mapped_host() throws URISyntaxException {
         final HostRequestBuilder hostRequestBuilder = new HostRequestBuilder("http://host.example.com", Lists.newArrayList("example.com:example.io"));
         assertThat(hostRequestBuilder.requestTarget("https://example.com/path/to")).isEqualTo("http://host.example.com/path/to");
-        assertThat(hostRequestBuilder.getVirtualHost("https://example.com/path/to")).isEqualTo("https://example.io");
+        assertThat(hostRequestBuilder.getVirtualHostScheme("https://example.com/path/to")).isEqualTo("https://example.io");
     }
 }
