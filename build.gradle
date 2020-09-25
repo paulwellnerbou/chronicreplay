@@ -9,7 +9,6 @@ apply plugin: 'application'
 apply plugin: 'jacoco'
 
 group = 'de.wellnerbou'
-version = '2.2.0'
 
 description = """chronicreplay"""
 
@@ -23,6 +22,10 @@ run {
 
 test {
 	filter { includeTestsMatching "*Test" }
+}
+
+release {
+	tagTemplate = 'v${version}'
 }
 
 repositories {
