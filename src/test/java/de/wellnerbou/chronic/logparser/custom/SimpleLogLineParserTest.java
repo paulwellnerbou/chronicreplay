@@ -3,6 +3,7 @@ package de.wellnerbou.chronic.logparser.custom;
 import de.wellnerbou.chronic.replay.LogLineData;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assertions;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -11,6 +12,11 @@ import org.junit.Test;
 public class SimpleLogLineParserTest {
 
 	SimpleLogLineParser simpleLogLineReader = new SimpleLogLineParser();
+
+	@BeforeClass
+	public static void before() {
+		System.setProperty("user.timezone", "UTC");
+	}
 
 	@Test
 	public void testParseLineException() {

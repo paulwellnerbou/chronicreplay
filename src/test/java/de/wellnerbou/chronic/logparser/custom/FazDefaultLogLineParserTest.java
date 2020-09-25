@@ -3,11 +3,17 @@ package de.wellnerbou.chronic.logparser.custom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.wellnerbou.chronic.replay.LogLineData;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class FazDefaultLogLineParserTest {
 
 	FazDefaultLogLineParser fazDefaultLogLineReader = new FazDefaultLogLineParser();
+
+	@BeforeClass
+	public static void before() {
+		System.setProperty("user.timezone", "UTC");
+	}
 
 	@Test
 	public void testParseLine() {

@@ -2,6 +2,7 @@ package de.wellnerbou.chronic.logparser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.wellnerbou.chronic.replay.LogLineData;
@@ -9,6 +10,11 @@ import de.wellnerbou.chronic.replay.LogLineData;
 public class CommonLogFormatLogLineParserTest {
 
 	CommonLogFormatLogLineParser commonLogFormatLogLineReader = new CommonLogFormatLogLineParser();
+
+	@BeforeClass
+	public static void before() {
+		System.setProperty("user.timezone", "UTC");
+	}
 
 	@Test
 	public void testFormatDate() {

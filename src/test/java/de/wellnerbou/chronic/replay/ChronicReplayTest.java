@@ -3,13 +3,21 @@ package de.wellnerbou.chronic.replay;
 import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.TimeZone;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ChronicReplayTest {
+
+	@BeforeClass
+	public static void before() {
+		System.setProperty("user.timezone", "UTC");
+	}
+
 	@Test
 	public void testGetLoggingDiscriminatorVariable() {
 		String testString = "http://subdomain.example.com/path";
@@ -20,7 +28,7 @@ public class ChronicReplayTest {
 	@Test
 	public void test_jodaTimeApi() {
 		DateTime dateTime = new DateTime(1380103200 * 1000L);
-		Assertions.assertThat(dateTime.getHourOfDay()).isEqualTo(12);
+		Assertions.assertThat(dateTime.getHourOfDay()).isEqualTo(10);
 		Assertions.assertThat(dateTime.getMinuteOfHour()).isEqualTo(0);
 	}
 

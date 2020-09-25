@@ -4,6 +4,7 @@ import de.wellnerbou.chronic.replay.LogLineData;
 import org.assertj.core.api.Assertions;
 import org.joda.time.DateTime;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.util.Map;
@@ -12,6 +13,11 @@ import java.util.TreeMap;
 public class GrokResultMapperTest {
 
 	private GrokResultMapper grokResultMapper;
+
+	@BeforeClass
+	public static void before() {
+		System.setProperty("user.timezone", "UTC");
+	}
 
 	@Before
 	public void setUp() {
