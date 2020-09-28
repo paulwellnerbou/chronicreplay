@@ -74,10 +74,12 @@ public class ChronicReplay {
         final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
         final ResultDataLogger resultDataLogger = createLogger(options.getLogger());
         final HostRequestBuilder hostRequestBuilder = new HostRequestBuilder(options.getHost(), options.getHostmap());
-        final LineReplayer lineReplayer = new LineReplayer(hostRequestBuilder, asyncHttpClient, resultDataLogger);
+        final LineReplayer lineReplayer = new LineReplayer(hostRequestBuilder, asyncHttpClient, resultDataLogger, options.getResolve());
         lineReplayer.setHostHeader(options.getHostheader());
         lineReplayer.setHeaders(options.getHeader());
-        lineReplayer.setCustomUserAgent(options.getCustomUserAgent());
+        if(options.getCustomUserAgent() != null) {
+            lineReplayer.setCustomUserAgent(options.getCustomUserAgent());
+        }
         lineReplayer.setFollowRedirects(options.getFollowRedirects());
         final LogReplayReader logReplayReader = new LogReplayReader(lineReplayer, logLineParser, new LogSourceReaderFactoryProvider().getImplementation(options.getLogreader()));
         logReplayReader.setDelay(options.getDelay());
@@ -97,8 +99,7 @@ public class ChronicReplay {
     private ResultDataLogger createLogger(final String loggerType) {
 
         if (loggerType.equals("json")) {
-            final JsonResultDataLogger jsonResultDataLogger = new JsonResultDataLogger();
-            return jsonResultDataLogger;
+            return new JsonResultDataLogger();
         } else {
             final CsvResultDataLogger csvResultDataLogger = new CsvResultDataLogger();
             csvResultDataLogger.logColumnTitles();

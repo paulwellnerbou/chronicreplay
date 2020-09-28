@@ -1,6 +1,7 @@
 package de.wellnerbou.chronic.replay;
 
 import com.lexicalscope.jewel.cli.Option;
+import com.ning.http.client.NameResolver;
 
 import java.util.List;
 
@@ -50,4 +51,7 @@ public interface CliOptions {
 
 	@Option(longName = "grokpattern", defaultToNull = true, description = "Grok pattern to parse log lines, used only for --logparser=grok")
 	String getGrokPattern();
+
+	@Option(longName = "resolve", defaultToNull = true)
+    String getResolve();
 }

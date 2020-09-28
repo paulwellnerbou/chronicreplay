@@ -39,7 +39,7 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
     }
 
 	@Override
-	public Response onCompleted(final Response response) throws Exception {
+	public Response onCompleted(final Response response) {
 		final long duration = System.currentTimeMillis() - startTime;
 		Boolean sameStatus = null;
 		try {
@@ -51,7 +51,7 @@ public class LoggingAsyncCompletionHandler extends AsyncCompletionHandler<Respon
 		LOG.info("Status={} OriginalStatus={} SameStatus={} Duration={} OriginalDuration={} Difference={} Request={}", response.getStatusCode(), originalData.getStatusCode(),
 				sameStatus, duration,
 				originalData.getDuration(),
-				duration - originalData.getDuration(), response.getUri().toASCIIString());
+				duration - originalData.getDuration(), response.getUri().toString());
 		return response;
 	}
 }

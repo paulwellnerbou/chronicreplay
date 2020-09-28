@@ -31,11 +31,7 @@ public class CsvResultDataLogger implements ResultDataLogger {
 	@Override
 	public void logResultDataLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime) {
 		String uriString;
-		try {
-			uriString = response.getUri().toASCIIString();
-		} catch (MalformedURLException e) {
-			uriString = e.getMessage();
-		}
+		uriString = response.getUri().toString();
 		logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV);
 		if (sameStatus) {
 			logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV_SAMESTATUS);

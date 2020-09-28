@@ -3,6 +3,7 @@ package de.wellnerbou.chronic.replay;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClient.BoundRequestBuilder;
 import com.ning.http.client.ListenableFuture;
+import com.ning.http.client.NameResolver;
 import com.ning.http.client.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ public class LineReplayer {
 
     public static final String USER_AGENT_HEADER_NAME = "user-agent";
     private static final Logger LOG = LoggerFactory.getLogger(LineReplayer.class);
+    private final NameResolver resolver;
 
     private String hostHeader = null;
     private String customUserAgent = null;
@@ -28,24 +30,28 @@ public class LineReplayer {
 
     private boolean followRedirects = false;
 
-    public LineReplayer(final HostRequestBuilder hostRequestBuilder, final AsyncHttpClient asyncHttpClient, final ResultDataLogger resultDataLogger) {
+    public LineReplayer(final HostRequestBuilder hostRequestBuilder, final AsyncHttpClient asyncHttpClient, final ResultDataLogger resultDataLogger, final String resolve) {
         this.hostRequestBuilder = hostRequestBuilder;
         this.asyncHttpClient = asyncHttpClient;
         this.resultDataLogger = resultDataLogger;
+        this.resolver = resolve != null ? new FixedHostResolver(resolve) : null;
     }
 
     public ListenableFuture<Response> replay(final LogLineData logLineData) throws IOException, URISyntaxException {
         final String requestTarget = hostRequestBuilder.requestTarget(logLineData.getRequest());
         BoundRequestBuilder req = asyncHttpClient.prepareGet(requestTarget);
         req.setFollowRedirects(followRedirects);
+        if (resolver != null) {
+            req.setNameResolver(resolver);
+        }
 
         String usedHostHeader = detectVirtualHostHeader(logLineData);
         req = req.setVirtualHost(usedHostHeader);
 
-        if(customUserAgent != null) {
+        if (customUserAgent != null) {
             req.setHeader(USER_AGENT_HEADER_NAME, customUserAgent);
         } else if (logLineData.getUserAgent() != null) {
-            req.setHeader("user-agent", logLineData.getUserAgent());
+            req.setHeader(USER_AGENT_HEADER_NAME, logLineData.getUserAgent());
         }
 
         for (final Header header : headers) {
@@ -59,14 +65,14 @@ public class LineReplayer {
     }
 
     private String detectVirtualHostHeader(final LogLineData logLineData) throws URISyntaxException {
-        if(logLineData.getHost() != null) {
+        if (logLineData.getHost() != null) {
             return logLineData.getHost();
         }
-        if(hostHeader != null) {
+        if (hostHeader != null) {
             return hostHeader;
         }
         final String virtualHostScheme = hostRequestBuilder.getVirtualHostScheme(logLineData.getRequest());
-        if(virtualHostScheme != null && (virtualHostScheme.startsWith("http://") || virtualHostScheme.startsWith("https://"))) {
+        if (virtualHostScheme != null && (virtualHostScheme.startsWith("http://") || virtualHostScheme.startsWith("https://"))) {
             return new URI(virtualHostScheme).getHost();
         } else {
             return virtualHostScheme;

@@ -16,11 +16,7 @@ public class JsonResultDataLogger implements ResultDataLogger {
     public void logResultDataLine(LogLineData originalData, Response response, Boolean sameStatus, long duration, long startTime) {
         String uriString;
         JsonLogLineData jsonData = new JsonLogLineData();
-        try {
-            uriString = response.getUri().toASCIIString();
-        } catch (MalformedURLException e) {
-            uriString = e.getMessage();
-        }
+        uriString = response.getUri().toString();
         jsonData.startTime = new DateTime(startTime).toString();
         jsonData.originalStartTime = new DateTime(originalData.getTime()).toString();
         jsonData.statusCode = response.getStatusCode();
