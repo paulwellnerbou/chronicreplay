@@ -37,7 +37,7 @@ public class LineReplayer {
         this.resolver = resolve != null ? new FixedHostResolver(resolve) : null;
     }
 
-    public ListenableFuture<Response> replay(final LogLineData logLineData) throws IOException, URISyntaxException {
+    public ListenableFuture<Response> replay(final LogLineData logLineData) throws URISyntaxException {
         final String requestTarget = hostRequestBuilder.requestTarget(logLineData.getRequest());
         BoundRequestBuilder req = asyncHttpClient.prepareGet(requestTarget);
         req.setFollowRedirects(followRedirects);

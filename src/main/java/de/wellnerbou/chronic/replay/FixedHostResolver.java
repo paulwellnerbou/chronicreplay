@@ -1,12 +1,14 @@
 package de.wellnerbou.chronic.replay;
 
-import com.ning.http.client.NameResolver;
+import org.slf4j.Logger;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class FixedHostResolver implements com.ning.http.client.NameResolver {
+import static org.slf4j.LoggerFactory.getLogger;
 
+public class FixedHostResolver implements com.ning.http.client.NameResolver {
+    private static final Logger LOG = getLogger(FixedHostResolver.class);
     private final String resolve;
 
     public FixedHostResolver(final String resolve) {
@@ -15,6 +17,8 @@ public class FixedHostResolver implements com.ning.http.client.NameResolver {
 
     @Override
     public InetAddress resolve(final String name) throws UnknownHostException {
-        return NameResolver.JdkNameResolver.INSTANCE.resolve(resolve);
+        final InetAddress resolved = JdkNameResolver.INSTANCE.resolve(this.resolve);
+        LOG.info("Resolved {} to {}", name, resolved.getHostAddress());
+        return resolved;
     }
 }

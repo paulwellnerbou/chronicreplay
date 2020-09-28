@@ -6,6 +6,7 @@ import com.lexicalscope.jewel.cli.CliFactory;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClientConfig;
 import com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider;
+import com.ning.http.client.providers.netty.NettyAsyncHttpProvider;
 import de.wellnerbou.chronic.logparser.LogLineParser;
 import de.wellnerbou.chronic.logparser.LogLineParserProvider;
 import de.wellnerbou.chronic.logsource.factory.LogSourceReaderFactoryProvider;
@@ -68,12 +69,18 @@ public class ChronicReplay {
     }
 
     public void replay(final InputStream inputStream, final CliOptions options) throws IOException {
-        final AsyncHttpClientConfig config = new AsyncHttpClientConfig.Builder().build();
-        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
+        final AsyncHttpClientConfig.Builder builder = new AsyncHttpClientConfig.Builder();
+        if(options.getCustomUserAgent() != null) {
+            builder.setUserAgent(options.getCustomUserAgent());
+        }
+        final AsyncHttpClientConfig config = builder.build();
+//        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
+        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new NettyAsyncHttpProvider(config));
         final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
         final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
         final ResultDataLogger resultDataLogger = createLogger(options.getLogger());
         final HostRequestBuilder hostRequestBuilder = new HostRequestBuilder(options.getHost(), options.getHostmap());
+
         final LineReplayer lineReplayer = new LineReplayer(hostRequestBuilder, asyncHttpClient, resultDataLogger, options.getResolve());
         lineReplayer.setHostHeader(options.getHostheader());
         lineReplayer.setHeaders(options.getHeader());
