@@ -5,7 +5,9 @@ import com.lexicalscope.jewel.cli.Cli;
 import com.lexicalscope.jewel.cli.CliFactory;
 import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.AsyncHttpClientConfig;
+import com.ning.http.client.AsyncHttpProvider;
 import com.ning.http.client.providers.grizzly.GrizzlyAsyncHttpProvider;
+import com.ning.http.client.providers.jdk.JDKAsyncHttpProvider;
 import com.ning.http.client.providers.netty.NettyAsyncHttpProvider;
 import de.wellnerbou.chronic.logparser.LogLineParser;
 import de.wellnerbou.chronic.logparser.LogLineParserProvider;
@@ -70,12 +72,13 @@ public class ChronicReplay {
 
     public void replay(final InputStream inputStream, final CliOptions options) throws IOException {
         final AsyncHttpClientConfig.Builder builder = new AsyncHttpClientConfig.Builder();
-        if(options.getCustomUserAgent() != null) {
+        if (options.getCustomUserAgent() != null) {
             builder.setUserAgent(options.getCustomUserAgent());
         }
+        builder.setAcceptAnyCertificate(options.getInsecure());
         final AsyncHttpClientConfig config = builder.build();
 //        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new GrizzlyAsyncHttpProvider(config));
-        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(new NettyAsyncHttpProvider(config));
+        final AsyncHttpClient asyncHttpClient = new AsyncHttpClient(createHttpProvider(config, options));
         final LogLineParserProvider logLineParserProvider = new LogLineParserProvider(options.getGrokPattern());
         final LogLineParser logLineParser = logLineParserProvider.getImplementation(options.getLogparser());
         final ResultDataLogger resultDataLogger = createLogger(options.getLogger());
@@ -84,7 +87,7 @@ public class ChronicReplay {
         final LineReplayer lineReplayer = new LineReplayer(hostRequestBuilder, asyncHttpClient, resultDataLogger, options.getResolve());
         lineReplayer.setHostHeader(options.getHostheader());
         lineReplayer.setHeaders(options.getHeader());
-        if(options.getCustomUserAgent() != null) {
+        if (options.getCustomUserAgent() != null) {
             lineReplayer.setCustomUserAgent(options.getCustomUserAgent());
         }
         lineReplayer.setFollowRedirects(options.getFollowRedirects());
@@ -93,6 +96,16 @@ public class ChronicReplay {
         logReplayReader.setWaitForTermination(options.getWaitForTermination());
         logReplayReader.readAndReplay(inputStream, convertToDateTime(options.getFrom()), convertToDateTime(options.getUntil()));
         close(asyncHttpClient);
+    }
+
+    private AsyncHttpProvider createHttpProvider(final AsyncHttpClientConfig config, final CliOptions options) {
+        if (options.getHttpProvider() != null && options.getHttpProvider().equals("grizzly")) {
+            return new GrizzlyAsyncHttpProvider(config);
+        } else if (options.getHttpProvider() != null && options.getHttpProvider().equals("jdk")) {
+            return new JDKAsyncHttpProvider(config);
+        }
+
+        return new NettyAsyncHttpProvider(config);
     }
 
     protected DateTime convertToDateTime(final String until) {

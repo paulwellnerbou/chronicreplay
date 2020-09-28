@@ -54,4 +54,10 @@ public interface CliOptions {
 
 	@Option(longName = "resolve", defaultToNull = true)
     String getResolve();
+
+	@Option(longName = "httpProvider", defaultValue = "netty")
+	String getHttpProvider();
+
+	@Option(longName = "insecure")
+	boolean getInsecure();
 }
