@@ -58,6 +58,9 @@ public interface CliOptions {
 	@Option(longName = "httpProvider", defaultValue = "netty")
 	String getHttpProvider();
 
+	@Option(longName = "repeat", defaultValue = "1")
+	Integer getRepetitions();
+
 	@Option(longName = "insecure")
 	boolean getInsecure();
 }
