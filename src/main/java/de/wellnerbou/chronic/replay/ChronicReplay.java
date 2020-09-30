@@ -92,7 +92,7 @@ public class ChronicReplay {
             if (repetitions == 0) {
                 System.out.println("WARNING: repetitions = 0, will repeat ever and ever until program is killed.");
             }
-            for (int i = 0; i < repetitions; i++) {
+            for (int i = 0; repetitions == 0 || i < repetitions; i++) {
                 try (InputStream inputStream = getInputStreamFromGivenFile(options.getLogfile())) {
                     logReplayReader.replay(inputStream, convertToDateTime(options.getFrom()), convertToDateTime(options.getUntil()));
                 }
