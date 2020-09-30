@@ -76,11 +76,24 @@ public class ChronicReplayIT {
 	}
 
 	@Test
-	public void testRun_() throws IOException {
+	public void testRun_withGrokPattern() throws IOException {
 		String[] args = new String[]{
-				"--logfile=src/test/resources/deutschlandradio-private/varnish.log",
+				"--logfile=src/test/resources/varnish-custom.log",
 				"--logparser=grok",
+				"--resolve=example.com",
+				"--repeat=2",
 				"--grokpattern=(%{IPORHOST:clientip},|-) %{IPORHOST:clientip2} - \\[%{HTTPDATE:timestamp}\\] \"(?:%{WORD:verb} %{NOTSPACE:request}(?: HTTP/%{NUMBER:httpversion})?|%{DATA:rawrequest})\" %{NUMBER:response} (?:%{NUMBER:bytes}|-) \"(%{NOTSPACE:referrer}|-)\" \"(?:%{GREEDYDATA:useragent})\" \"(?:%{WORD:scheme})\"",
+				"--wait-for-termination"
+		};
+		ChronicReplay.main(args);
+	}
+
+	@Test
+	public void testRun_withGrokPattern_logfileContainingOnlyTimeAndRequest() throws IOException {
+		String[] args = new String[]{
+				"--logfile=src/test/resources/prepared-logfile.log",
+				"--logparser=grok",
+				"--grokpattern=\\[%{HTTPDATE:timestamp}\\] %{NOTSPACE:request}",
 				"--wait-for-termination"
 		};
 		ChronicReplay.main(args);
