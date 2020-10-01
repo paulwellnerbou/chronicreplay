@@ -33,7 +33,7 @@ public class CsvResultDataLogger implements ResultDataLogger {
 		String uriString;
 		uriString = response.getUri().toString();
 		logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV);
-		if (sameStatus) {
+		if (sameStatus != null && sameStatus) {
 			logResultDataLine(originalData, response, sameStatus, duration, startTime, uriString, RESULTDATA_CSV_SAMESTATUS);
 		}
 	}
@@ -43,7 +43,7 @@ public class CsvResultDataLogger implements ResultDataLogger {
 				new DateTime(startTime),
 				new DateTime(originalData.getTime()),
 				response.getStatusCode(), originalData.getStatusCode(),
-				sameStatus, duration,
+				sameStatus != null ? sameStatus : "-", duration,
 				originalData.getDuration(),
 				duration - originalData.getDuration(),
 				uriString);

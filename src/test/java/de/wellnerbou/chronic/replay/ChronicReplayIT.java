@@ -91,8 +91,9 @@ public class ChronicReplayIT {
 	@Test
 	public void testRun_withGrokPattern_logfileContainingOnlyTimeAndRequest() throws IOException {
 		String[] args = new String[]{
-				"--logfile=src/test/resources/prepared-logfile.log",
+				"--logfile=src/test/resources/prepared-logfile-over-midnight.log",
 				"--logparser=grok",
+				"--insecure",
 				"--grokpattern=\\[%{HTTPDATE:timestamp}\\] %{NOTSPACE:request}",
 				"--wait-for-termination"
 		};

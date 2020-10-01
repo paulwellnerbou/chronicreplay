@@ -1,0 +1,3 @@
+1.1.1.1, 192.168.191.5 - [18/Sep/2020:03:45:01 +0200] "GET https://www.example.de/anywhere HTTP/1.0" 200 44 "-" "-" "http"
+1.1.1.1, 192.168.191.5 - [18/Sep/2020:03:45:01 +0200] "GET http://www.example.de/themes/dradio/fonts/graphik/Graphik-Regular-Web.woff2 HTTP/1.1" 304 0 "-" "Mozilla/5.0 (Linux; Android 10; SM-A750FN) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.101 Mobile Safari/537.36" "https"
+1.1.1.1, 192.168.191.5 - [18/Sep/2020:03:45:01 +0200] "GET http://subdomain.example.de/file.txt?tmp=1600393500 HTTP/1.1" 200 78 "-" "Dalvik/2.1.0 (Linux; U; Android 10; SM-G988B Build/QP1A.190711.020)" "https"

@@ -110,8 +110,11 @@ public class ChronicReplay {
         return new NettyAsyncHttpProvider(config);
     }
 
-    protected DateTime convertToDateTime(final String until) {
-        return DateTime.parse(until, DateTimeFormat.forPattern("HH:mm:ss"));
+    protected DateTime convertToDateTime(final String timeStr) {
+        if(timeStr == null) {
+            return null;
+        }
+        return DateTime.parse(timeStr, DateTimeFormat.forPattern("HH:mm:ss"));
     }
 
     private ResultDataLogger createLogger(final String loggerType) {

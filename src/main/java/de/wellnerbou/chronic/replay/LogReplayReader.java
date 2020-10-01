@@ -35,7 +35,6 @@ public class LogReplayReader {
     }
 
     public void replay(final InputStream is, final DateTime from, final DateTime until) throws IOException {
-        LOG.info("Replaying from {} until {}", from.toLocalTime(), until.toLocalTime());
         try (LogSourceReader logSourceReader = logSourceReaderFactory.create(is)) {
             Object line;
             LogLineData lineData;
@@ -96,7 +95,7 @@ public class LogReplayReader {
 
     long calculateStarttimeRelativeToLogs(final DateTime from, final LogLineData firstLineData) {
         final long dateOfFirstLogLine = firstLineData.getTime();
-        if (from.toLocalTime().isAfter(new DateTime(dateOfFirstLogLine).toLocalTime())) {
+        if (from != null && from.toLocalTime().isAfter(new DateTime(dateOfFirstLogLine).toLocalTime())) {
             return new DateTime(dateOfFirstLogLine).withMillisOfDay(from.getMillisOfDay()).getMillis();
         } else {
             return firstLineData.getTime();
@@ -105,7 +104,7 @@ public class LogReplayReader {
 
     boolean isInTimeRange(final DateTime from, final DateTime until, final LogLineData lineData) {
         final DateTime time = new DateTime(lineData.getTime());
-        if (from.toLocalTime().isAfter(time.toLocalTime())) {
+        if (from != null && from.toLocalTime().isAfter(time.toLocalTime())) {
             LOG.info("Skipping replay, {} before {}", time.toLocalTime(), from.toLocalTime());
             return false;
         }
@@ -113,6 +112,9 @@ public class LogReplayReader {
     }
 
     private boolean isBeforeTimeRangeEnd(final DateTime until, final LogLineData lineData) {
+        if(until == null) {
+            return true;
+        }
         final DateTime logLineTime = new DateTime(lineData.getTime());
         if (logLineTime.toLocalTime().isBefore(until.toLocalTime())) {
             LOG.trace("{} before {}", logLineTime.toLocalTime(), until.toLocalTime());

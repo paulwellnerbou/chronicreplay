@@ -37,10 +37,10 @@ public interface CliOptions {
 	@Option(defaultToNull = true, description = "Delay between requests in milliseconds")
 	Long getDelay();
 
-	@Option(defaultValue = "23:59:59")
+	@Option(defaultToNull = true)
 	String getUntil();
 
-	@Option(defaultValue = "00:00:00")
+	@Option(defaultToNull = true)
 	String getFrom();
 
 	@Option(longName = "wait-for-termination")
