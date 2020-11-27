@@ -1,4 +1,7 @@
 <configuration debug="false">
+
+	<property name="STANDARD_LEVEL" value="info" />
+
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
 			<pattern>%d{HH:mm:ss.SSS} [%level] [%thread] [%logger] {%msg}%n</pattern>
@@ -94,23 +97,28 @@
 		</sift>
 	</appender>
 
-    <logger name="RESULTDATA_CSV" level="debug">
+    <!--logger name="RESULTDATA_CSV" level="debug"-->
+	<logger name="RESULTDATA_CSV" level="${STANDARD_LEVEL}">
         <appender-ref ref="datalogger-csv" />
     </logger>
 
-	<logger name="RESULTDATA_JSON" level="debug">
+	<!--logger name="RESULTDATA_JSON" level="debug"-->
+	<logger name="RESULTDATA_JSON" level="${STANDARD_LEVEL}">
 		<appender-ref ref="datalogger-json" />
 	</logger>
 
-    <logger name="RESULTDATA_CSV_SAMESTATUS" level="debug">
+	<!--logger name="RESULTDATA_CSV_SAMESTATUS" level="debug"-->
+    <logger name="RESULTDATA_CSV_SAMESTATUS" level="${STANDARD_LEVEL}">
         <appender-ref ref="datalogger-csv-samestatus" />
     </logger>
 
-	<logger name="RESULTDATA_JSON_SAMESTATUS" level="debug">
+	<!--logger name="RESULTDATA_JSON_SAMESTATUS" level="debug"-->
+	<logger name="RESULTDATA_JSON_SAMESTATUS" level="${STANDARD_LEVEL}">
 		<appender-ref ref="datalogger-json-samestatus" />
 	</logger>
 
-	<root level="info">
+	<!--root level="info"-->
+	<root level="${STANDARD_LEVEL}">
 		<appender-ref ref="STDOUT"/>
 		<appender-ref ref="logfile"/>
 		<appender-ref ref="siftingfileappender"/>
