@@ -18,6 +18,9 @@ Where "combined" is the name of the logfile reader exptecting Apache's combined 
 (see [Apache's documentation](http://httpd.apache.org/docs/current/mod/mod_log_config.html) and
 [CombinedLogFormatLogLineReader](src/main/java/de/wellnerbou/chronic/logreader/CombinedLogFormatLogLineReader.java)'s JavaDoc).
 
+Standard Log Level is set as environment variable, named LOG_LEVEL, default value is DEBUG. 
+To change the Log Level, that environment variable needs to be altered.
+
 How to build
 ------------
 
