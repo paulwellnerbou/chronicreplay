@@ -18,6 +18,14 @@ Where "combined" is the name of the logfile reader exptecting Apache's combined 
 (see [Apache's documentation](http://httpd.apache.org/docs/current/mod/mod_log_config.html) and
 [CombinedLogFormatLogLineReader](src/main/java/de/wellnerbou/chronic/logreader/CombinedLogFormatLogLineReader.java)'s JavaDoc).
 
+Standard log level is set as environment variable, named `LOG_LEVEL`, default value is `DEBUG`. 
+To change the log level, that environment variable needs to be altered. Available relevant
+levels are `INFO` and `WARN`. To disable logging completely, use `WARN` (or higher).
+
+```
+LOG_LEVEL=warn ./chronicreplay-*/bin/chronicreplay --host=host.to.replay.against --logfile=/path/to/your/logfile --logparser=combined
+```
+
 How to build
 ------------
 
